@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "MeGuia",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

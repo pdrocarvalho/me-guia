@@ -1,0 +1,8 @@
+{
+  "name": "MeGuia",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "b161df00"
+}
