@@ -4,19 +4,19 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #5260ff;
-  --ion-color-primary-rgb: 82, 96, 255;
+  --ion-color-primary: #480CA8;
+  --ion-color-primary-rgb: 199, 64, 54;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #4854e0;
-  --ion-color-primary-tint: #6370ff;
+  --ion-color-primary-shade: #D07D77;
+  --ion-color-primary-tint: #942F28;
 
   /** secondary **/
-  --ion-color-secondary: #3dc2ff;
-  --ion-color-secondary-rgb: 61, 194, 255;
+  --ion-color-secondary: #472B29;
+  --ion-color-secondary-rgb: 71, 43, 41;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #36abe0;
+  --ion-color-secondary-shade: #471713;
   --ion-color-secondary-tint: #50c8ff;
 
   /** tertiary **/
@@ -75,13 +75,13 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 }
-
+/*
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
    * -------------------------------------------
    */
-
+/*
   body {
     --ion-color-primary: #6a64ff;
     --ion-color-primary-rgb: 106, 100, 255;
@@ -151,7 +151,7 @@ http://ionicframework.com/docs/theming/ */
    * iOS Dark Theme
    * -------------------------------------------
    */
-
+/*
   .ios body {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0;
@@ -195,7 +195,7 @@ http://ionicframework.com/docs/theming/ */
    * Material Design Dark Theme
    * -------------------------------------------
    */
-
+/*
   .md body {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
@@ -234,3 +234,4 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+*/
