@@ -13,7 +13,7 @@ import {
   IonList
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, home } from 'ionicons/icons';
+import { ellipse, square, home, sunny } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -37,9 +37,12 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/App.css';
+import './theme/custom-tab-bar.css';
 
 const App: React.FC = () => (
   <IonApp>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQTo7Wfbl5_Uw4wF22cIsQzSBI362_qO4" async defer/>
 
     <IonMenu menuId="menu-home" contentId="main">
       <IonContent>
@@ -74,8 +77,8 @@ const App: React.FC = () => (
             <IonLabel>HOME</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
+            <IonIcon icon={sunny} />
+            <IonLabel>PRAIAS</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={square} />

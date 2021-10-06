@@ -1,0 +1,50 @@
+.heading {
+    padding: 23px;
+    font-weight: bold, sans-serif;
+    h1{
+        font-size: 1rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+}
+
+.search{
+    padding: 23px;
+    padding-top: 0;
+    position: relative;
+    border-radius: 23px;
+}
+
+
+.title {
+
+	margin-top: -0.5rem;
+    font-size: 1rem;
+    text-align: start;
+}
+
+.type {
+
+	font-size: 0.6rem;
+}
+
+.image {
+	border-radius: 20px;
+	height: 20%; 
+	width: 15rem;
+}
+
+/*.imageHeader {
+
+	border-radius: 20px;
+    height: 10rem;
+    width: 100%;
+    padding: 0;
+}*/
+
+.card{
+	width: 65%;
+    padding: 0.5rem;
+    padding-bottom: 0;
+    border-radius: 20px;
+}

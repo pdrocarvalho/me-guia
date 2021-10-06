@@ -1,63 +1,62 @@
-import { IonContent,
-         IonHeader,
-         IonCardHeader,
-         IonCardSubtitle, 
-         IonCardTitle, 
-         IonPage, 
-         IonTitle, 
-         IonToolbar, 
-         IonCard, 
-         IonIcon, 
-         IonItem, 
-         IonLabel, 
-         IonButtons,
-         IonButton,
-         IonCardContent, 
-         IonMenuButton, 
-         IonList} from '@ionic/react';
-import { pin, planet } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonCard, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonSearchbar, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
-import './Tab1.css';
-
-import { menuController } from '@ionic/core';
-
+import React, { useState } from 'react';
+import './Tab1.scss';
+import points from '../server/points';
+import { locationSharp } from 'ionicons/icons';
 
 const Tab1: React.FC = () => {
+  const [searchText, setSearchText] = useState('');
   return (
     
     <IonPage>
-      <IonHeader>
-                <IonToolbar color="primary">
+      <IonHeader className="ion-padding">
+        <IonToolbar>
           
-          <IonButtons slot="start">
-            <IonMenuButton type="button" menu="menu-home"></IonMenuButton>
-            
-          </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>  
+      <IonContent fullscreen={true}>
+        <div className="heading">
+          <h1>Descubra</h1>
+          <h1>seu caminho!</h1>
+        </div>
+        <IonSearchbar className="search" value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Pra onde quer ir...?"></IonSearchbar>
 
+        <div className="ion-text-start">
+      <h2>Dica do dia!</h2>
+      </div>
+      <IonSlides pager={ false }>
 
-      {/*Card MeGuia*/}
-      <IonCard>
-          <img src="https://cdn.discordapp.com/attachments/887103067965759488/887103117672476692/logo-meguia.jpeg" />
-          <IonCardHeader>
-            <IonCardTitle>OLÁ!</IonCardTitle>
-          </IonCardHeader>
+        { points.map((places, index) => {
 
-          <IonCardContent>
-            Quer se aventurar por Cabo Frio sem precisar de guias e burocracia? Aqui você encontra
-            todas as informações que precisa para visitar os melhores pontos turísticos de Cabo Frio.
-            Rotas, melhores horários para visitação, dicas de roteiro e muito mais! 
-          </IonCardContent>
-        </IonCard>
+          return(
+            <IonSlide key={`slide_${ index }`}>
+              <IonCard className="card">
+                <div className="iamgeHeader">
+                <img src={ places.img } alt="card" className="image" />
+                </div>
+                <IonCardHeader>
+               
+                <IonCardTitle className="title">{ places.name }</IonCardTitle>
+                <IonButton expand="block" fill="clear" href={`http://maps.google.com/maps?q=${places.lat},${places.lng}`} > 
+            <p>Me Guia!</p>
+            <IonIcon icon={locationSharp} />
+        </IonButton>
+                </IonCardHeader>
+              </IonCard>
 
+            </IonSlide>
+
+          )
+
+        })}
       
+      </IonSlides>
+
       </IonContent>
+
     </IonPage>
   );
 };
-async function openMenu() {
-  await menuController.open();
-}
+
 export default Tab1;
