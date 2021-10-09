@@ -8,6 +8,7 @@ const points = [
         weekday_text: ["Monday: 8:00 AM – 5:00 PM", "Tuesday: 8:00 AM – 5:00 PM", "Wednesday: 8:00 AM – 5:00 PM", "Thursday: 8:00 AM – 5:00 PM", "Friday: 8:00 AM – 5:00 PM", "Saturday: 8:00 AM – 5:00 PM", "Sunday: 8:00 AM – 5:00 PM"],
         formatted_address: "Praia do Forte, S/N, Cabo Frio - RJ, 20510-160, Brazil",
         types: ["tourist_attraction"],
+        loc: "Cabo Frio / RJ",
         img: "https://prensadebabel.com.br/wp-content/uploads/2018/02/forte-s%C3%A3o-mateus-cabo-frio-800x487.jpg",
     },
     {
@@ -19,6 +20,7 @@ const points = [
         weekday_text: ["Monday: Open 24 hours", "Tuesday: Open 24 hours", "Wednesday: Open 24 hours", "Thursday: Open 24 hours", "Friday: Open 24 hours", "Saturday: Open 24 hours", "Sunday: Open 24 hours"],
         formatted_address: "Praia das Conchas - Cajueiro, Cabo Frio - RJ, Brazil",
         types: ["beach"],
+        loc: "Cabo Frio / RJ",
         img : "https://www.transportal.com.br/noticias/wp-content/uploads/2019/09/Vista-a%C3%A9rea-da-praia-das-conchas.jpg",
     },
     {
@@ -30,6 +32,7 @@ const points = [
         weekday_text: ["Monday: Open 24 hours", "Tuesday: Open 24 hours", "Wednesday: Open 24 hours", "Thursday: Open 24 hours", "Friday: Open 24 hours", "Saturday: Open 24 hours", "Sunday: Open 24 hours"],
         formatted_address: "Praia das Conchas - Cajueiro, Cabo Frio - RJ, Brazil",
         types: ["beach"],
+        loc: "Cabo Frio / RJ",
         img: "https://www.cariocasemfronteiras.com.br/wp-content/uploads/2017/06/Praia-das-Conchas-4-1024x678.jpg",
     },
     {
@@ -41,6 +44,7 @@ const points = [
         weekday_text: ["Monday: Open 24 hours", "Tuesday: Open 24 hours", "Wednesday: Open 24 hours", "Thursday: Open 24 hours", "Friday: Open 24 hours", "Saturday: Open 24 hours", "Sunday: Open 24 hours"],
         formatted_address: "Praia das Conchas - Cajueiro, Cabo Frio - RJ, Brazil",
         types: ["beach"],
+        loc: "Cabo Frio / RJ",
         img: "https://pousadabrisadoforte.com.br/wp-content/uploads/2017/10/praia-do-foguete-1.png"
     }
 ]

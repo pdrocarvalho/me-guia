@@ -1,0 +1,32 @@
+.button {
+    --border-radius: 23px;
+
+}
+
+.primary-input{
+    background: aliceblue;
+    border-radius: 23px;
+    margin-bottom: 14px;
+    
+    
+    --color: var(--ion-color-primary);
+    --padding-start: 10px !important;
+    
+}
+
+.titleSignup {
+    margin-bottom: 30px;
+    
+    
+}
+
+.titleSignup h4 {
+    color: var(--ion-color-primary);
+
+}
+
+.titleSignup p {
+    margin-top: 0 !important;
+    color: var(--ion-color-dark-tint);
+    font-size: small;
+}

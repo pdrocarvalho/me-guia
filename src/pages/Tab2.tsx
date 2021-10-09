@@ -1,28 +1,26 @@
 import {
   IonButton, IonCard,
-  IonCardContent,
   IonCardHeader,
   IonCardTitle,
-  IonChip,
   IonContent,
-  IonFab,
-  IonFabButton,
   IonHeader,
   IonIcon,
-  IonLabel,
-  IonNote,
   IonPage,
   IonSlide,
   IonSlides,
-  IonTitle,
   IonToolbar
 } from '@ionic/react';
 import { locationSharp } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import ExploreContainer from '../components/ExploreContainer';
+
 import './Tab2.scss';
 import points from '../server/points';
+const slideOpts = {
+  initialSlide: 0,
+  slidesPerView: 1.3,
+  spaceBetween: -1,
+  
+  
+  };
 
 const Tab2: React.FC = () => {
   return (
@@ -37,7 +35,7 @@ const Tab2: React.FC = () => {
         <div className="ion-text-start">
           <h2>Dica do dia!</h2>
         </div>
-        <IonSlides pager={false}>
+        <IonSlides pager={false} options={slideOpts}>
 
           {points.map((places, index) => {
             return (

@@ -1,0 +1,52 @@
+ion-content {
+    .logo {
+        width: 30%;
+        margin: 20% 0 20% 0;
+    }
+    .title {
+        align-content : center;
+    }
+}
+
+.button {
+    --border-radius: 23px;
+
+}
+
+.login-modal .modal-wrapper {
+    
+    height: 45%;
+    top: 55%;
+    position: absolute;
+    display: black;
+    border-radius: 20px 20px 0 0;
+    .primary-input{
+        background: aliceblue;
+        border-radius: 23px;
+        margin-bottom: 14px;
+        
+        
+        --color: var(--ion-color-primary);
+        --padding-start: 10px !important;
+        
+    }
+    .title {
+        margin-bottom: 30px;
+        
+    }
+    
+    .title h4 {
+        color: var(--ion-color-primary);
+        
+    }
+
+    .title p {
+        margin-top: 0 !important;
+        color: var(--ion-color-dark-tint);
+        font-size: small;
+    }
+
+    .forgot a {
+        font-size: small;
+    }
+}

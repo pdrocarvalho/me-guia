@@ -13,10 +13,11 @@ import {
   IonList
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, home, sunny } from 'ionicons/icons';
+import { square, informationCircleOutline, sunny, trailSignOutline, alertCircle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import Login from './pages/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,23 +39,29 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './theme/App.css';
 import './theme/custom-tab-bar.css';
-
+import bannerSvg from './assets/banner.svg'
 const App: React.FC = () => (
   <IonApp>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQTo7Wfbl5_Uw4wF22cIsQzSBI362_qO4" async defer/>
 
-    <IonMenu menuId="menu-home" contentId="main">
+    <IonReactRouter>
+      
+    <IonMenu menuId="menu-home" contentId="main" swipeGesture={false}>
       <IonContent>
-          <div className="menu-header-bg"></div>
+          <div className="menu-header-bg">
+            <img src={bannerSvg}></img>
+          </div>
           <IonList>
-            <IonItem>Contato</IonItem>
+            <IonItem href="/tab3">
+              <IonIcon icon={alertCircle} slot="end"/>
+              Anuncie no nosso app!</IonItem>
             <IonItem>Contato</IonItem>
           </IonList>
       </IonContent>
     </IonMenu>
     <IonRouterOutlet id="main"></IonRouterOutlet>
-
+</IonReactRouter>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
@@ -70,19 +77,22 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/tab1" />
           </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={home} />
-            <IonLabel>HOME</IonLabel>
+            <IonIcon icon={trailSignOutline} />
+            
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
             <IonIcon icon={sunny} />
-            <IonLabel>PRAIAS</IonLabel>
+            
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={square} />
-            <IonLabel>Tab 3</IonLabel>
+            <IonIcon icon={informationCircleOutline} />
+            
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

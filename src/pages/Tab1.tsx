@@ -1,57 +1,76 @@
-import { IonAvatar, IonButton, IonCard, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonSearchbar, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonMenuButton, IonPage, IonSearchbar, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import './Tab1.scss';
 import points from '../server/points';
+import bannerSvg from '../assets/banner.svg'
 import { locationSharp } from 'ionicons/icons';
+
+const slideOpts = {
+  initialSlide: 0,
+  freeMode: true,
+  slidesPerView: 1.3,
+  spaceBetween: 1,
+  slidesOffsetBefore: 1,
+};
 
 const Tab1: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   return (
-    
+
     <IonPage>
-      <IonHeader className="ion-padding">
-        <IonToolbar>
-          
+      <IonHeader class="ion-no-border">
+        <IonToolbar no-border>
+          <IonButtons slot="start" >
+            <IonMenuButton color="light"></IonMenuButton>
+          </IonButtons>
+          <IonTitle>
+            MeGuia!
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen={true}>
-        <div className="heading">
-          <h1>Descubra</h1>
-          <h1>seu caminho!</h1>
-        </div>
-        <IonSearchbar className="search" value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Pra onde quer ir...?"></IonSearchbar>
-
-        <div className="ion-text-start">
-      <h2>Dica do dia!</h2>
-      </div>
-      <IonSlides pager={ false }>
-
-        { points.map((places, index) => {
-
-          return(
-            <IonSlide key={`slide_${ index }`}>
-              <IonCard className="card">
-                <div className="iamgeHeader">
-                <img src={ places.img } alt="card" className="image" />
-                </div>
-                <IonCardHeader>
-               
-                <IonCardTitle className="title">{ places.name }</IonCardTitle>
-                <IonButton expand="block" fill="clear" href={`http://maps.google.com/maps?q=${places.lat},${places.lng}`} > 
-            <p>Me Guia!</p>
-            <IonIcon icon={locationSharp} />
-        </IonButton>
-                </IonCardHeader>
-              </IonCard>
-
-            </IonSlide>
-
-          )
-
-        })}
       
-      </IonSlides>
+      <IonContent fullscreen={true}>
+        <div className="banner">
+          <img alt="" src={bannerSvg}/>
+
+          <div className="heading ion-padding">
+            Descubra <br></br>
+            seu caminho!
+          </div>
+        </div>  
+        <div className="search">
+        <IonSearchbar inputmode="search" animated={true} value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Pra onde quer ir...?"></IonSearchbar>
+        </div>
+
+        <div className="title2">
+          <h2>Destinos</h2>
+        </div>
+        <IonSlides pager={false} options={slideOpts}>
+
+          {points.map((places, index) => {
+
+            return (
+              <IonSlide className="master" key={`slide_${index}`}>
+                <IonCard className="card">
+                  
+                    <img src={places.img} alt="cardImg" className="image" />
+                  
+                  <IonCardHeader>
+
+                    <IonCardTitle className="title">{places.name}</IonCardTitle>
+                    <IonCardSubtitle className="subtitle">{places.loc}</IonCardSubtitle>
+                  </IonCardHeader>
+                </IonCard>
+
+              </IonSlide>
+
+            )
+
+          })}
+
+        </IonSlides>
+
+        
 
       </IonContent>
 
