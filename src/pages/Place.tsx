@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { locationSharp } from 'ionicons/icons';
 
-import './Tab2.scss';
+import './Place.scss';
 import points from '../server/points';
 const slideOpts = {
   initialSlide: 0,
@@ -22,7 +22,7 @@ const slideOpts = {
   
   };
 
-const Tab2: React.FC = () => {
+const Place: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -66,4 +66,4 @@ const Tab2: React.FC = () => {
   );
 };
 
-export default Tab2;
+export default Place;

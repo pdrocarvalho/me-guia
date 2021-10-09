@@ -1,6 +1,6 @@
 import { IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonMenuButton, IonPage, IonSearchbar, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
-import './Tab1.scss';
+import './Home.scss';
 import points from '../server/points';
 import bannerSvg from '../assets/banner.svg'
 import { locationSharp } from 'ionicons/icons';
@@ -13,7 +13,7 @@ const slideOpts = {
   slidesOffsetBefore: 1,
 };
 
-const Tab1: React.FC = () => {
+const Home: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   return (
 
@@ -78,4 +78,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Home;

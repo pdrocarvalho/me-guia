@@ -1,18 +1,18 @@
 import React from "react";
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonMenuButton, IonPage, IonToolbar } from "@ionic/react";
+import { IonBackButton, IonButton, IonButtons, IonCheckbox, IonContent, IonHeader, IonInput, IonItem, IonMenuButton, IonPage, IonToolbar } from "@ionic/react";
 import { arrowBack } from "ionicons/icons"; 
 
-import './Login.scss'
+import './Register.scss'
 
 
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
     return (
         <IonPage>
             <IonHeader className="ion-no-border">
                 <IonToolbar >
                     <IonButtons slot="start">
-                    <IonBackButton  defaultHref="/Tab3" color="primary" icon={arrowBack}></IonBackButton> 
+                    <IonBackButton  defaultHref="/Welcome" color="primary" icon={arrowBack}></IonBackButton> 
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -26,11 +26,13 @@ const Login: React.FC = () => {
                 <IonInput placeholder="CNPJ" className="primary-input"></IonInput>
                 <IonInput placeholder="Senha" className="primary-input" type="password"></IonInput>
                 <IonInput placeholder="Confirme a senha" className="primary-input" type="password"></IonInput>
-
+                <IonItem>
+                <p>Você concorda com os termos de uso:</p><IonCheckbox slot="end" color="primary" />
+                </IonItem>
                 <IonButton expand="block" className="ion-margin-top button">SING UP</IonButton>
             </IonContent>
         </IonPage>
     );
 };
 
-export default Login;
+export default Register;
