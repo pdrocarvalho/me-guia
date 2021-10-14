@@ -13,11 +13,13 @@ import {
   IonList
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { square, informationCircleOutline, sunny, trailSignOutline, alertCircle } from 'ionicons/icons';
+import { alertCircleOutline, chatbubbleEllipsesOutline } from 'ionicons/icons';
+
+/* Import pages */
 import Home from './pages/Home';
 import Place from './pages/Place';
 import Welcome from './pages/Welcome';
-import Register from './pages/Register';
+import Report from './pages/Report';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -39,47 +41,59 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './theme/App.css';
 import './theme/custom-tab-bar.css';
+
+/* Import assets */
 import bannerSvg from './assets/banner.svg'
+
+
 const App: React.FC = () => (
   <IonApp>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQTo7Wfbl5_Uw4wF22cIsQzSBI362_qO4" async defer/>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQTo7Wfbl5_Uw4wF22cIsQzSBI362_qO4" async defer />
 
+    {/* SIDE MENU */}
     <IonReactRouter>
-      
-    <IonMenu menuId="menu-home" contentId="main" swipeGesture={false}>
-      <IonContent>
+      <IonMenu menuId="menu-home" contentId="main" swipeGesture={false}>
+        <IonContent>
           <div className="menu-header-bg">
-            <img src={bannerSvg}></img>
+            <img alt="" src={bannerSvg}></img>
+           
           </div>
-          <IonList>
+          <IonList lines="none">
             <IonItem href="/Welcome">
-              <IonIcon icon={alertCircle} slot="end"/>
-              Anuncie no nosso app!</IonItem>
-            <IonItem>Contato</IonItem>
+              <IonIcon icon={alertCircleOutline} slot="end" />
+              <IonLabel>  Anuncie no nosso app! </IonLabel>
+            </IonItem>
+
+            <IonItem href='/Report'>
+              <IonIcon icon={chatbubbleEllipsesOutline} slot="end" />
+              <IonLabel>Fale conosco</IonLabel>
+            </IonItem>
           </IonList>
-      </IonContent>
-    </IonMenu>
-    <IonRouterOutlet id="main"></IonRouterOutlet>
-</IonReactRouter>
+        </IonContent>
+      </IonMenu>
+      <IonRouterOutlet id="main"></IonRouterOutlet>
+    </IonReactRouter>
+
+    {/* ROTAS */}
     <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/place">
-            <Place />
-          </Route>
-          <Route path="/welcome">
-            <Welcome />
-          </Route>
-          <Route exact path="/register">
-            <Register />
-          </Route>
-        </IonRouterOutlet>
+      <IonRouterOutlet>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+        <Route exact path="/home">
+          <Home />
+        </Route>
+        <Route exact path="/place">
+          <Place />
+        </Route>
+        <Route path="/welcome">
+          <Welcome />
+        </Route>
+        <Route exact path="/report">
+          <Report />
+        </Route>
+      </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
 );

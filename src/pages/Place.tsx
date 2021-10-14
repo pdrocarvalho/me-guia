@@ -10,57 +10,25 @@ import {
   IonSlides,
   IonToolbar
 } from '@ionic/react';
-import { locationSharp } from 'ionicons/icons';
+import { locationSharp, playCircleSharp } from 'ionicons/icons';
 
 import './Place.scss';
 import points from '../server/points';
-const slideOpts = {
-  initialSlide: 0,
-  slidesPerView: 1.3,
-  spaceBetween: -1,
-  
-  
-  };
+
 
 const Place: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-
-        <div className="ion-text-start">
-          <h2>Dica do dia!</h2>
+      <IonHeader className="ion-no-border">
+        <div className="imgHeader">
+          <img alt="" src="https://prensadebabel.com.br/wp-content/uploads/2018/02/forte-s%C3%A3o-mateus-cabo-frio-800x487.jpg"></img>
         </div>
-        <IonSlides pager={false} options={slideOpts}>
+      </IonHeader>
 
-          {points.map((places, index) => {
-            return (
-              <IonSlide key={`slide_${index}`}>
-                <IonCard className="card">
-                  <div className="iamgeHeader">
-                    <img src={places.img} alt="card" className="image" />
-                  </div>
-                  <IonCardHeader>
-
-                    <IonCardTitle className="title">{places.name}</IonCardTitle>
-                    <IonButton expand="block" fill="clear" href={`http://maps.google.com/maps?q=${places.lat},${places.lng}`} >
-                      <p>Me Guia!</p>
-                      <IonIcon icon={locationSharp} />
-                    </IonButton>
-                  </IonCardHeader>
-                </IonCard>
-
-              </IonSlide>
-
-            )
-          })}
-
-        </IonSlides>
-
+      <IonContent className="background" fullscreen>
+        
+        
+        
       </IonContent>
     </IonPage>
   );

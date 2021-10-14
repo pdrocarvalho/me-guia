@@ -10,6 +10,7 @@ const points = [
         types: ["tourist_attraction"],
         loc: "Cabo Frio / RJ",
         img: "https://prensadebabel.com.br/wp-content/uploads/2018/02/forte-s%C3%A3o-mateus-cabo-frio-800x487.jpg",
+        description: "Constitui-se na principal praia da cidade de Cabo Frio, com 7,5 quilômetros de extensão. Nela se localiza o Forte de São Mateus do Cabo Frio, erguido no século XVII. A conhecida Praia do Forte não abrange somente o bairro de nome homônimo, como também os bairros vizinhos de Balneário das Dunas, Algodoal e Braga.",
     },
     {
         place_id: "ChIJ52zrNGwDlwAR3yTeETXpMrU",
@@ -22,6 +23,7 @@ const points = [
         types: ["beach"],
         loc: "Cabo Frio / RJ",
         img : "https://www.transportal.com.br/noticias/wp-content/uploads/2019/09/Vista-a%C3%A9rea-da-praia-das-conchas.jpg",
+        description: "Constitui-se na principal praia da cidade de Cabo Frio, com 7,5 quilômetros de extensão. Nela se localiza o Forte de São Mateus do Cabo Frio, erguido no século XVII. A conhecida Praia do Forte não abrange somente o bairro de nome homônimo, como também os bairros vizinhos de Balneário das Dunas, Algodoal e Braga.",
     },
     {
         place_id: "ChIJ52zrNGwDlwAR3yTeETXpMrU",
@@ -34,6 +36,7 @@ const points = [
         types: ["beach"],
         loc: "Cabo Frio / RJ",
         img: "https://www.cariocasemfronteiras.com.br/wp-content/uploads/2017/06/Praia-das-Conchas-4-1024x678.jpg",
+        description: "Constitui-se na principal praia da cidade de Cabo Frio, com 7,5 quilômetros de extensão. Nela se localiza o Forte de São Mateus do Cabo Frio, erguido no século XVII. A conhecida Praia do Forte não abrange somente o bairro de nome homônimo, como também os bairros vizinhos de Balneário das Dunas, Algodoal e Braga.",
     },
     {
         place_id: "ChIJ52zrNGwDlwAR3yTeETXpMrU",
@@ -45,7 +48,8 @@ const points = [
         formatted_address: "Praia das Conchas - Cajueiro, Cabo Frio - RJ, Brazil",
         types: ["beach"],
         loc: "Cabo Frio / RJ",
-        img: "https://pousadabrisadoforte.com.br/wp-content/uploads/2017/10/praia-do-foguete-1.png"
+        img: "https://pousadabrisadoforte.com.br/wp-content/uploads/2017/10/praia-do-foguete-1.png",
+        description: "Constitui-se na principal praia da cidade de Cabo Frio, com 7,5 quilômetros de extensão. Nela se localiza o Forte de São Mateus do Cabo Frio, erguido no século XVII. A conhecida Praia do Forte não abrange somente o bairro de nome homônimo, como também os bairros vizinhos de Balneário das Dunas, Algodoal e Braga.",
     }
 ]
 

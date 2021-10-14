@@ -7,7 +7,9 @@ import {
   IonHeader,
   IonToolbar,
   IonBackButton,
-  IonButtons
+  IonButtons,
+  IonItem,
+  IonCheckbox
 } from '@ionic/react';
 import React, { useState } from 'react';
 
@@ -18,7 +20,8 @@ import { arrowBack } from 'ionicons/icons';
 
 
 const Welcome: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   return (
     <IonPage>
@@ -40,9 +43,12 @@ const Welcome: React.FC = () => {
 
         <div className="ion-margin-top">
 
-          <IonButton expand="block" className="ion-margin-top button" fill="outline" color="light" href="/Register">CADASTRE-SE</IonButton>
+          <IonButton expand="block" className="ion-margin-top button" fill="outline" color="light" onClick={
+            () => setShowRegister(true)}>
+            CADASTRE-SE
+          </IonButton>
           <IonButton expand="block" className="ion-margin-top button" color="light" onClick={
-            () => setShowModal(true)}>
+            () => setShowLogin(true)}>
             LOGIN
           </IonButton>
 
@@ -50,16 +56,16 @@ const Welcome: React.FC = () => {
         </div>
 
 
-        <IonModal isOpen={showModal} cssClass='login-modal'>
+        <IonModal isOpen={showLogin} cssClass='login-modal'>
           <IonContent className="ion-padding">
             <div className="title">
               <h4> LOGIN </h4>
               <p> Vamos começar </p>
             </div>
 
-            <IonInput placeholder="Username" className="primary-input"></IonInput>
-            <IonInput placeholder="Password" type="password" className="primary-input"></IonInput>
-          
+            <IonInput placeholder="Usuário" className="primary-input"></IonInput>
+            <IonInput placeholder="Senha" type="password" className="primary-input"></IonInput>
+
             <div className="ion-margin-top ion-text-right forgot">
               <a>Esqueceu a senha?</a>
             </div>
@@ -67,18 +73,42 @@ const Welcome: React.FC = () => {
             <IonButton expand="block" className="ion-margin-top button" color="primary">LOGIN</IonButton>
 
             <div className="ion-margin-top ion-text-center">
-            <a  onClick={() => setShowModal(false)}> Close </a>
+              <a onClick={() => setShowLogin(false)}> Fechar </a>
             </div>
           </IonContent>
-          
+
         </IonModal>
 
-        
-          
-        
+        <IonModal isOpen={showRegister} cssClass='register-modal'>
+          <IonContent className="ion-padding">
+            <div className="ion-text-left titleSignup">
+              <h4> Cadastre-se </h4>
+              <p> Informe seus dados para continuar </p>
+            </div>
 
-      </IonContent>
-    </IonPage>
+            <IonInput placeholder="Nome fantasia" className="primary-input"></IonInput>
+            <IonInput placeholder="CNPJ" className="primary-input" type="number"></IonInput>
+            <IonInput placeholder="Senha" className="primary-input" type="password"></IonInput>
+            <IonInput placeholder="Confirme a senha" className="primary-input" type="password"></IonInput>
+            <IonItem>
+              <p>Você concorda com os termos de uso:</p><IonCheckbox slot="end" color="primary" />
+            </IonItem>
+            <IonButton expand="block" className="ion-margin-top button">CADASTRAR-SE</IonButton>
+            <div className="ion-margin-top ion-text-center">
+              <a onClick={() => setShowRegister(false)}> Fechar </a>
+            </div>
+          </IonContent>
+
+
+
+        </IonModal>
+
+
+
+
+
+      </IonContent >
+    </IonPage >
   )
 }
 export default Welcome;
