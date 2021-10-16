@@ -1,24 +1,24 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
   IonMenu,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   IonContent,
   IonItem,
-  IonList
+  IonList,
+  
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { alertCircleOutline, chatbubbleEllipsesOutline } from 'ionicons/icons';
 
 /* Import pages */
 import Home from './pages/Home';
-import Place from './pages/Place';
+import Hostel from './pages/Hostel';
+import Store from './pages/Store';
 import Welcome from './pages/Welcome';
+import Client from './pages/Client';
 import Report from './pages/Report';
 
 /* Core CSS required for Ionic components to work properly */
@@ -60,12 +60,12 @@ const App: React.FC = () => (
            
           </div>
           <IonList lines="none">
-            <IonItem href="/Welcome">
+            <IonItem href="/welcome">
               <IonIcon icon={alertCircleOutline} slot="end" />
               <IonLabel>  Anuncie no nosso app! </IonLabel>
             </IonItem>
 
-            <IonItem href='/Report'>
+            <IonItem href='/report'>
               <IonIcon icon={chatbubbleEllipsesOutline} slot="end" />
               <IonLabel>Fale conosco</IonLabel>
             </IonItem>
@@ -78,21 +78,12 @@ const App: React.FC = () => (
     {/* ROTAS */}
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/place">
-          <Place />
-        </Route>
-        <Route path="/welcome">
-          <Welcome />
-        </Route>
-        <Route exact path="/report">
-          <Report />
-        </Route>
+        <Route path="/" component={Home} exact />
+        <Route path="/hostel" component={Hostel} exact />
+        <Route path="/store" component={Store} exact />
+        <Route path="/welcome" component={Welcome} exact />
+        <Route path="/client" component={Client} exact />
+        <Route path="/report" component={Report} exact />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

@@ -1,11 +1,35 @@
-import { IonBackButton, IonBackdrop, IonButton, IonButtons, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonDatetime, IonFab, IonFabButton, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonMenuButton, IonModal, IonNote, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonSlide, IonSlides, IonTitle, IonToolbar } from '@ionic/react';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonMenuButton,
+  IonModal,
+  IonNote,
+  IonPage,
+  IonRow,
+  IonSearchbar,
+  IonSlide,
+  IonSlides,
+  IonTitle,
+  IonToolbar
+} from '@ionic/react';
 import React, { useState } from 'react';
 import './Home.scss';
 import points from '../server/points';
 import bannerSvg from '../assets/banner.svg'
-import { add, arrowBack, checkmarkCircle, locationSharp, shuffle, } from 'ionicons/icons';
-import Place from './Place';
-import { render } from '@testing-library/react';
+import { addCircleOutline, arrowBack, bagHandleOutline, bedOutline, locationSharp, logoVimeo, settings, trailSignOutline } from 'ionicons/icons';
 
 const slideOpts = {
   initialSlide: 0,
@@ -14,7 +38,7 @@ const slideOpts = {
   spaceBetween: 1,
   slidesOffsetBefore: 1,
 };
-let nav: any = [];
+let placeSelected: any = [];
 
 const Home: React.FC = () => {
   const [searchText, setSearchText] = useState('');
@@ -23,13 +47,12 @@ const Home: React.FC = () => {
   async function showDetail(id: string) {
 
     const place = await points.find(place => place.place_id === id)
-    nav = place;
+    placeSelected = place;
     await setShowSpecs(true)
     return (
-      console.log(nav.name)
+      console.log(placeSelected.name)
     )
 
-    //return(place);
   }
   return (
 
@@ -41,12 +64,24 @@ const Home: React.FC = () => {
             <IonMenuButton color="light"></IonMenuButton>
           </IonButtons>
           <IonTitle>
-            MeGuia!
+
           </IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen={true}>
+        {/* 
+        <IonFab vertical="top" horizontal="end" slot="fixed">
+          <IonFabButton color="danger">
+            <IonIcon icon={addCircleOutline} />
+          </IonFabButton>
+          <IonFabList side="bottom">
+            <IonFabButton href="/report"><IonIcon icon={bagHandleOutline} /></IonFabButton>
+            <IonFabButton href="/report"><IonIcon icon={bedOutline} /></IonFabButton>
+          </IonFabList>
+        </IonFab>
+        */}
+
         <div className="banner">
           <img alt="" src={bannerSvg} />
 
@@ -59,10 +94,29 @@ const Home: React.FC = () => {
           <IonSearchbar inputmode="search" animated={true} value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Pra onde quer ir...?"></IonSearchbar>
         </div>
 
+        <div className="navButtons ">
+          <IonToolbar >
+            <IonButton routerLink="/store" slot="end" size="default" fill="outline" color="danger">
+              <IonIcon icon={bagHandleOutline}></IonIcon>
+              <IonLabel>
+                Comércio
+              </IonLabel>
+            </IonButton>
+            <IonButton routerLink="/hostel" slot="end" size="default" fill="outline" color="danger">
+              <IonIcon icon={bedOutline}></IonIcon>
+              <IonLabel>
+                Hospedagem
+              </IonLabel>
+            </IonButton>
+
+          </IonToolbar>
+        </div>
+        {/* Slides Destinos */}
         <div className="title2">
           <h2>Destinos</h2>
         </div>
         <IonSlides pager={false} options={slideOpts}>
+
 
           {points.map((places, index) => {
 
@@ -97,35 +151,35 @@ const Home: React.FC = () => {
                 </IonFabButton>
               </IonFab>
               <div className="imgHeader">
-                <img alt="" className="" src={nav.img}></img>
+                <img alt="" className="" src={placeSelected.img}></img>
               </div>
+
               <div className="background">
+
                 <div className="title">
-                  <IonTitle>{nav.name}</IonTitle>
+                  <IonTitle>{placeSelected.name}</IonTitle>
                 </div>
+
                 <IonGrid>
                   <IonRow>
-                    <IonCol className="ion-align-self-center address">{nav.formatted_address}</IonCol>
+                    <IonCol className="ion-align-self-center address">{placeSelected.formatted_address}</IonCol>
                     <IonCol className="ion-align-self-center">
-                      <IonButton className="loc" fill="outline" href={nav.url}>
+                      <IonButton className="loc" fill="outline" href={placeSelected.url}>
                         <IonIcon slot="icon-only" color="primary" icon={locationSharp} />
                         <IonLabel>Me guia!</IonLabel>
                       </IonButton>
                     </IonCol>
                   </IonRow>
-
                 </IonGrid>
-                
-
-
 
                 <div className="description">
                   <IonTitle>Descrição</IonTitle>
-                  <IonNote>{nav.description}</IonNote>
+                  <IonNote>{placeSelected.description}</IonNote>
                 </div>
-                <div className="close ion-margin-top ion-text-center">
 
+                <div className="close ion-margin-top ion-text-center">
                 </div>
+
               </div>
             </IonContent>
 

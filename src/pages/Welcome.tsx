@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   IonButton,
   IonContent,
@@ -20,15 +21,34 @@ import { arrowBack } from 'ionicons/icons';
 
 
 const Welcome: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  /* States LOGIN */
+  const [ showLogin, setShowLogin ] = useState(false)
+  const [ username, setUsername ] = useState('')
+  const [ password, setPassword ] = useState('')
+  
+  /* States SIGN IN */
+  const [ showRegister, setShowRegister ] = useState(false)
+  const [ newUsername, setNewUsername ] = useState('')
+  const [ newPassword, setNewPassword ] = useState('')
+  const [ newPasswordConfirmation, setNewPasswordConfirmation ] = useState('')
+  const [ buttonDisable, setButtonDisable ] = useState(true)
+
+  /* Functions */
+  function loginUser() {
+    console.log(username, password)
+  }
+
+  function registerUser() {
+    console.log( newUsername, newPassword, newPasswordConfirmation)
+  }
+
 
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/Home" color="light" icon={arrowBack}></IonBackButton>
+            <IonBackButton defaultHref="/" color="light" icon={arrowBack}></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -55,7 +75,7 @@ const Welcome: React.FC = () => {
 
         </div>
 
-
+        {/* MODAL LOGIN */}
         <IonModal isOpen={showLogin} cssClass='login-modal'>
           <IonContent className="ion-padding">
             <div className="title">
@@ -63,14 +83,21 @@ const Welcome: React.FC = () => {
               <p> Vamos começar </p>
             </div>
 
-            <IonInput placeholder="Usuário" className="primary-input"></IonInput>
-            <IonInput placeholder="Senha" type="password" className="primary-input"></IonInput>
+            <IonInput placeholder="Usuário" className="primary-input" 
+            onIonChange={(e:any) => setUsername(e.target.value)} 
+            />
+            <IonInput placeholder="Senha" type="password" className="primary-input" 
+            onIonChange={(e:any) => setPassword(e.target.value)}
+            />
 
             <div className="ion-margin-top ion-text-right forgot">
               <a>Esqueceu a senha?</a>
             </div>
 
-            <IonButton expand="block" className="ion-margin-top button" color="primary">LOGIN</IonButton>
+            <IonButton expand="block" className="ion-margin-top button" color="primary"
+            onClick={loginUser}>
+              LOGIN
+              </IonButton>
 
             <div className="ion-margin-top ion-text-center">
               <a onClick={() => setShowLogin(false)}> Fechar </a>
@@ -79,6 +106,7 @@ const Welcome: React.FC = () => {
 
         </IonModal>
 
+        {/* MODAL CADASTRO */}
         <IonModal isOpen={showRegister} cssClass='register-modal'>
           <IonContent className="ion-padding">
             <div className="ion-text-left titleSignup">
@@ -86,14 +114,25 @@ const Welcome: React.FC = () => {
               <p> Informe seus dados para continuar </p>
             </div>
 
-            <IonInput placeholder="Nome fantasia" className="primary-input"></IonInput>
-            <IonInput placeholder="CNPJ" className="primary-input" type="number"></IonInput>
-            <IonInput placeholder="Senha" className="primary-input" type="password"></IonInput>
-            <IonInput placeholder="Confirme a senha" className="primary-input" type="password"></IonInput>
+            <IonInput placeholder="Nome fantasia" className="primary-input" />
+            <IonInput placeholder="CNPJ" className="primary-input" type="number" />
+            <IonInput placeholder="Nome de usuário" className="primary-input" 
+            onIonChange={(e:any) => setNewUsername(e.target.value)}
+            />
+            <IonInput placeholder="Senha" className="primary-input" type="password" 
+            onIonChange={(e:any) => setNewPassword(e.target.value)}
+            />
+            <IonInput placeholder="Confirme a senha" className="primary-input" type="password" 
+            onIonChange={(e:any) => setNewPasswordConfirmation(e.target.value)}
+            />
             <IonItem>
-              <p>Você concorda com os termos de uso:</p><IonCheckbox slot="end" color="primary" />
+              <p>Você concorda com os termos de uso:</p><IonCheckbox slot="end" color="primary" 
+              onIonChange={(e:any) => setButtonDisable(false)}
+              />
             </IonItem>
-            <IonButton expand="block" className="ion-margin-top button">CADASTRAR-SE</IonButton>
+            <IonButton expand="block" className="ion-margin-top button" disabled={buttonDisable}
+            onClick={registerUser}
+            >CADASTRAR-SE</IonButton>
             <div className="ion-margin-top ion-text-center">
               <a onClick={() => setShowRegister(false)}> Fechar </a>
             </div>
