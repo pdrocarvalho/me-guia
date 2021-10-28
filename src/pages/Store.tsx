@@ -1,19 +1,22 @@
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCol,
   IonContent,
   IonFab,
   IonFabButton,
-  IonFabList,
-  IonFooter,
+  IonGrid,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonMenuButton,
+  IonModal,
   IonNote,
   IonPage,
+  IonRow,
   IonSearchbar,
   IonSlide,
   IonSlides,
@@ -21,16 +24,42 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import { addCircleOutline, bagHandleOutline, bedOutline, locationSharp, playCircleSharp, trailSignOutline } from 'ionicons/icons';
+import {
+  arrowBack,
+  bedOutline,
+  locationSharp,
+  trailSignOutline
+} from 'ionicons/icons';
 
 import './Store.scss';
 import bannerSvg from '../assets/banner.svg'
-import clients from '../server/clients';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { db } from '../firebaseConfig'
+import { collection, getDocs } from 'firebase/firestore'
 
+let storeSelected: any = []
 
 const Store: React.FC = () => {
   const [searchText, setSearchText] = useState('');
+  const [users, setUsers] = useState<any>([])
+  const [showSpecs, setShowSpecs] = useState(false)
+
+  const usersCollectionRef = collection(db, "users")
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef)
+      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    }
+    getUsers()
+  })
+
+  const showDetails = async (id:any) => {
+const store = await users.find((users:any) => users.cnpj === id)
+storeSelected = store
+await setShowSpecs(true)
+  }
+
   return (
     <IonPage>
       <IonHeader class="ion-no-border">
@@ -88,17 +117,17 @@ const Store: React.FC = () => {
         </div>
 
         <IonList>
-          {clients.map((clients, index) => {
+          {users.map((users:any, index:any) => {
 
             return (
-              <IonItem className="master" key={`item_${index}`}>
-                <IonLabel> 
-                  <h2> {clients.name} </h2> 
-                  <p> {clients.address} </p>
-                  </IonLabel>
-                
+              <IonItem className="master" key={`item_${index}`} onClick={e => showDetails(`${users.cnpj}`)}>
+                <IonLabel>
+                  <h2> {users.store_name} </h2>
+                  <p> {users.address} </p>
+                </IonLabel>
+
                 <IonThumbnail slot="start" >
-                <img alt="thumbnail" src={clients.img} />
+                  <img alt="thumbnail" src={users.img} />
                 </IonThumbnail>
               </IonItem>
 
@@ -107,11 +136,53 @@ const Store: React.FC = () => {
           })}
 
         </IonList>
+        <IonModal isOpen={showSpecs} cssClass='specs-modal'>
 
+<IonContent className="specs">
+  <IonFab vertical="top" horizontal="start" slot="fixed">
+    <IonFabButton size="small" onClick={() => setShowSpecs(false)}>
+      <IonIcon icon={arrowBack} />
+    </IonFabButton>
+  </IonFab>
+  <div className="imgHeader">
+    <img alt="" className="" src={storeSelected.img}></img>
+  </div>
+
+  <div className="background">
+
+    <div className="title">
+      <IonTitle>{storeSelected.store_name}</IonTitle>
+    </div>
+
+    <IonGrid>
+      <IonRow>
+        <IonCol className="ion-align-self-center address">{storeSelected.formatted_address}</IonCol>
+        <IonCol className="ion-align-self-center">
+          <IonButton className="loc" fill="outline" href={storeSelected.url}>
+            <IonIcon slot="icon-only" color="primary" icon={locationSharp} />
+            <IonLabel>Me guia!</IonLabel>
+          </IonButton>
+        </IonCol>
+      </IonRow>
+    </IonGrid>
+
+    <div className="description">
+      <IonTitle>Descrição</IonTitle>
+      <IonNote>{storeSelected.description}</IonNote>
+    </div>
+
+    <div className="close ion-margin-top ion-text-center">
+    </div>
+
+  </div>
+</IonContent>
+
+
+</IonModal>
 
 
       </IonContent>
-      
+
     </IonPage>
   );
 };

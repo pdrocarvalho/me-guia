@@ -1,16 +1,14 @@
-ion-header {
+
+ion-toolbar {
     position: absolute;
+    padding-left: 14px;
+    padding-right: 14px;
+    --background: rgba(128, 255, 0, 0);
 
-    ion-toolbar {
-        padding-left: 14px;
-        padding-right: 14px;
-        --background: rgba(128, 255, 0, 0);
-
-        ion-title {
-            color: var(--ion-color-primary-contrast);
-            text-align: center;
-            font-size: 18px;
-        }
+    ion-title {
+        color: var(--ion-color-primary-contrast);
+        text-align: right;
+        font-size: 18px;
     }
 }
 ion-content {
@@ -53,11 +51,12 @@ ion-content {
     justify-content: center;
     position: relative;
     padding: 0 10px 0 0;
-    top: -30px;
+    top: -40px;
     --background: rgba(128, 255, 0, 0);
 
     ion-button {
         margin-left: 10px;
+        margin-bottom: 20px;
     }
 }
 
@@ -87,12 +86,13 @@ ion-content {
 
 
 .card {
-    width: 100%;
+    width: 93%;
     max-height: 15rem;
     min-height: 15rem;
     padding: 0.5rem;
     padding-bottom: 0;
     border-radius: 20px;
+    margin-bottom: 20px;
 }
 
 .title {

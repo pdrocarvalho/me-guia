@@ -1,0 +1,30 @@
+.menu-header-bg {
+    height: 180px;
+    width: 350px;
+    background-color: var(--ion-color-primary);
+}
+img {
+    height: 100%;
+    width: 100%;
+}
+
+.header-content {
+    position: absolute;
+    top: 30px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 5px solid var(--ion-color-secondary);
+    }
+
+    h2 {
+        font-weight: bold;
+        margin: 10px;
+        color: #fff
+    }
+}

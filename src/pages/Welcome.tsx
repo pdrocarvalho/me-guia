@@ -13,39 +13,74 @@ import {
   IonCheckbox
 } from '@ionic/react';
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, getAuth } from 'firebase/auth'
+//import { auth } from '../firebaseConfig'
 
-import './Welcome.scss';
 
+/* ASSETS */
 import meguiaLightSVG from '../assets/meguia-light.svg'
 import { arrowBack } from 'ionicons/icons';
-
+import './Welcome.scss';
 
 const Welcome: React.FC = () => {
   /* States LOGIN */
   const [ showLogin, setShowLogin ] = useState(false)
-  const [ username, setUsername ] = useState('')
-  const [ password, setPassword ] = useState('')
+
+  const [ loginEmail, setLoginEmail ] = useState('')
+  const [ loginPassword, setLoginPassword ] = useState('')
+  const [ userInfo, setUserInfo ] = useState('')
   
   /* States SIGN IN */
   const [ showRegister, setShowRegister ] = useState(false)
-  const [ newUsername, setNewUsername ] = useState('')
-  const [ newPassword, setNewPassword ] = useState('')
-  const [ newPasswordConfirmation, setNewPasswordConfirmation ] = useState('')
+
+  const [ registerEmail, setRegisterEmail ] = useState('')
+  const [ registerPassword, setRegisterPassword ] = useState('')
+  const [ registerPasswordC, setRegisterPasswordC ] = useState('')
+  const [ registerDisplayName, setRegisterDisplayName ] = useState('')
   const [ buttonDisable, setButtonDisable ] = useState(true)
-
+const auth:any = getAuth()  
   /* Functions */
-  function loginUser() {
-    console.log(username, password)
+  auth.onAuthStateChanged(function (user:any) {
+    if (user) {
+      console.log("user logged in")
+      setUserInfo(user.displayName)
+      console.log(userInfo)
+      console.log(user.uid)
+    } else {
+      console.log("user NOT logged in")
+    }
+  })
+  /*  onAuthStateChanged(auth, (currentUser:any) => {
+  setUser(currentUser);
+  console.log(user)
+});*/
+  
+  const loginUser = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      
+    } catch(error:any) {
+      console.log(error.message)
+    }
   }
-
-  function registerUser() {
-    console.log( newUsername, newPassword, newPasswordConfirmation)
+  
+  const registerUser = async () => {
+    try {
+      const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+    } catch(error:any) {
+      console.log(error.message);
+    }
+    
   }
-
-
+  
+  const logoutUser = async () => {
+    await signOut(auth)
+  }
+  
+  
   return (
     <IonPage>
-      <IonHeader className="ion-no-border">
+      <IonHeader className="header-welcome ion-no-border">
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/" color="light" icon={arrowBack}></IonBackButton>
@@ -84,14 +119,14 @@ const Welcome: React.FC = () => {
             </div>
 
             <IonInput placeholder="Usuário" className="primary-input" 
-            onIonChange={(e:any) => setUsername(e.target.value)} 
+            onIonChange={(e:any) => setLoginEmail(e.target.value)} 
             />
             <IonInput placeholder="Senha" type="password" className="primary-input" 
-            onIonChange={(e:any) => setPassword(e.target.value)}
+            onIonChange={(e:any) => setLoginPassword(e.target.value)}
             />
 
             <div className="ion-margin-top ion-text-right forgot">
-              <a>Esqueceu a senha?</a>
+              <a onClick={ logoutUser }>Esqueceu a senha?</a>
             </div>
 
             <IonButton expand="block" className="ion-margin-top button" color="primary"
@@ -116,14 +151,17 @@ const Welcome: React.FC = () => {
 
             <IonInput placeholder="Nome fantasia" className="primary-input" />
             <IonInput placeholder="CNPJ" className="primary-input" type="number" />
-            <IonInput placeholder="Nome de usuário" className="primary-input" 
-            onIonChange={(e:any) => setNewUsername(e.target.value)}
+            <IonInput placeholder="Nome de usuário" className="primary-input" type="text" 
+            onIonChange={(e:any) => setRegisterDisplayName(e.target.value)}
+            />
+            <IonInput placeholder="Email" className="primary-input" 
+            onIonChange={(e:any) => setRegisterEmail(e.target.value)}
             />
             <IonInput placeholder="Senha" className="primary-input" type="password" 
-            onIonChange={(e:any) => setNewPassword(e.target.value)}
+            onIonChange={(e:any) => setRegisterPassword(e.target.value)}
             />
             <IonInput placeholder="Confirme a senha" className="primary-input" type="password" 
-            onIonChange={(e:any) => setNewPasswordConfirmation(e.target.value)}
+            onIonChange={(e:any) => setRegisterPasswordC(e.target.value)}
             />
             <IonItem>
               <p>Você concorda com os termos de uso:</p><IonCheckbox slot="end" color="primary" 
