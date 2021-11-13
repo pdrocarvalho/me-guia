@@ -2,45 +2,35 @@ import {
   IonButton,
   IonButtons,
   IonContent,
-  IonFab,
-  IonFabButton,
-  IonFabList,
-  IonFooter,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
   IonList,
   IonMenuButton,
-  IonNote,
   IonPage,
   IonSearchbar,
-  IonSlide,
-  IonSlides,
   IonThumbnail,
   IonTitle,
-  IonToolbar
-} from '@ionic/react';
-import { addCircleOutline, bagHandleOutline, bedOutline, locationSharp, playCircleSharp, trailSignOutline } from 'ionicons/icons';
+  IonToolbar,
+} from '@ionic/react'
+import { bagHandleOutline, trailSignOutline } from 'ionicons/icons'
 
-import './Hostel.scss';
-import bannerSvg from '../assets/banner.svg'
-import clients from '../server/clients';
-import { useState } from 'react';
-
+import './Hostel.scss'
+import bannerSvg from '../../assets/banner.svg'
+import clients from '../../server/clients'
+import { useState } from 'react'
 
 const Hostel: React.FC = () => {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('')
   return (
     <IonPage>
       <IonHeader class="ion-no-border">
         <IonToolbar no-border>
-          <IonButtons slot="start" >
+          <IonButtons slot="start">
             <IonMenuButton color="light"></IonMenuButton>
           </IonButtons>
-          <IonTitle>
-
-          </IonTitle>
+          <IonTitle></IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -65,23 +55,35 @@ const Hostel: React.FC = () => {
           </div>
         </div>
         <div className="search">
-          <IonSearchbar inputmode="search" animated={true} value={searchText} onIonChange={e => setSearchText(e.detail.value!)} placeholder="Pra onde quer ir...?"></IonSearchbar>
+          <IonSearchbar
+            inputmode="search"
+            animated={true}
+            value={searchText}
+            onIonChange={(e) => setSearchText(e.detail.value!)}
+            placeholder="Pra onde quer ir...?"
+          />
         </div>
         <IonToolbar className="navButtons">
-
-          <IonButton routerLink="/store" slot="end" size="default" fill="outline" color="danger">
+          <IonButton
+            routerLink="/store"
+            slot="end"
+            size="default"
+            fill="outline"
+            color="danger"
+          >
             <IonIcon icon={bagHandleOutline}></IonIcon>
-            <IonLabel>
-              Comércio
-            </IonLabel>
+            <IonLabel>Comércio</IonLabel>
           </IonButton>
-          <IonButton routerLink="/" slot="end" size="default" fill="outline" color="danger">
+          <IonButton
+            routerLink="/"
+            slot="end"
+            size="default"
+            fill="outline"
+            color="danger"
+          >
             <IonIcon icon={trailSignOutline}></IonIcon>
-            <IonLabel>
-              Destinos
-            </IonLabel>
+            <IonLabel>Destinos</IonLabel>
           </IonButton>
-
         </IonToolbar>
         <div className="title2">
           <h2>Hospedagem</h2>
@@ -89,31 +91,23 @@ const Hostel: React.FC = () => {
 
         <IonList>
           {clients.map((clients, index) => {
-
             return (
               <IonItem className="master" key={`item_${index}`}>
-                <IonLabel> 
-                  <h2> {clients.name} </h2> 
+                <IonLabel>
+                  <h2> {clients.name} </h2>
                   <p> {clients.address} </p>
-                  </IonLabel>
-                
-                <IonThumbnail slot="start" >
-                <img alt="thumbnail" src={clients.img} />
+                </IonLabel>
+
+                <IonThumbnail slot="start">
+                  <img alt="thumbnail" src={clients.img} />
                 </IonThumbnail>
               </IonItem>
-
             )
-
           })}
-
         </IonList>
-
-
-
       </IonContent>
-      
     </IonPage>
-  );
-};
+  )
+}
 
-export default Hostel;
+export default Hostel

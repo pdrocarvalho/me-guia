@@ -1,0 +1,33 @@
+
+.list-report {
+    padding-top: 20px;
+}
+.list-report h1 {
+    text-align: center;
+    color: var(--ion-color-primary);
+}
+.list-report h2 {
+    color: var(--ion-color-primary);
+}
+.report-modal .modal-wrapper {
+
+    .header {    
+        padding: 20px;
+    }
+    .header h1 {
+        color: var(--ion-color-primary);
+        margin-left: 60px;
+     }
+     .header h3 {
+        margin-left: 60px;
+        font-size: 1rem;
+    }
+    
+    .report {
+        padding: 20px;
+    }
+    .report h2 {
+            color: var(--ion-color-primary);
+    }
+    
+}
