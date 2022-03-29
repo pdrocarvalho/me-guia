@@ -29,6 +29,7 @@ import Report from './sac/Report'
 import Panel from './admin/Panel'
 import ReportAdm from './admin/sac/report'
 import EditPoints from './admin/points/EditPoints'
+import DeletePoints from './admin/points/DeletePoints'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -66,8 +67,9 @@ const App: React.FC = () => {
   //     const user = auth.currentUser
   //   }
   // }, [])
-
-  const logoutUser = async () => {
+  
+/*LogOut e Atualiza a página */
+  const logoutUser = async () => { 
     try {
       await signOut(auth)
       window.location.reload()
@@ -173,7 +175,8 @@ const App: React.FC = () => {
           <Route path="/report" component={Report} exact />
           <Route path="/admin/panel" component={Panel} exact />
           <Route path="/admin/report" component={ReportAdm} exact />
-          <Route path="/admin/points" component={EditPoints} exact />
+          <Route path="/admin/editpoints" component={EditPoints} exact />
+          <Route path="/admin/deletepoints" component={DeletePoints} exact />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
