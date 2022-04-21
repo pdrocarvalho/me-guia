@@ -18,11 +18,31 @@ import { bagHandleOutline, trailSignOutline } from 'ionicons/icons'
 
 import './Hostel.scss'
 import bannerSvg from '../../assets/banner.svg'
-import clients from '../../server/clients'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+import { db } from '../../services/firebaseConfig'
+import { collection, getDocs } from 'firebase/firestore'
+
+
 
 const Hostel: React.FC = () => {
   const [searchText, setSearchText] = useState('')
+  const [hostels, setHostels] = useState<any>([])
+  const [showSpecs, setShowSpecs] = useState(false)
+
+  const usersCollectionRef = collection(db, 'users')
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef)
+      const hostels = data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id 
+      }))
+      setHostels(hostels.filter((hostel: any) => (hostel.type === 'hostel')))
+    }
+    getUsers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   return (
     <IonPage>
       <IonHeader class="ion-no-border">
@@ -90,16 +110,24 @@ const Hostel: React.FC = () => {
         </div>
 
         <IonList>
-          {clients.map((clients, index) => {
+          {hostels.filter((hostels: any) => {
+            if (searchText === '') {
+              return hostels;
+            } else if (
+              hostels.store_name.toLowerCase().includes(searchText.toLocaleLowerCase())
+            ) {
+              return hostels;
+            }
+          }).map((hostels: any, index: any) => {
             return (
               <IonItem className="master" key={`item_${index}`}>
                 <IonLabel>
-                  <h2> {clients.name} </h2>
-                  <p> {clients.address} </p>
+                  <h2> {hostels.store_name} </h2>
+                  <p> {hostels.address} </p>
                 </IonLabel>
 
                 <IonThumbnail slot="start">
-                  <img alt="thumbnail" src={clients.img} />
+                  <img alt="thumbnail" src={hostels.img} />
                 </IonThumbnail>
               </IonItem>
             )

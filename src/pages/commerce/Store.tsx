@@ -32,6 +32,7 @@ import {
 import "./Store.scss"
 import bannerSvg from "../../assets/banner.svg"
 import { useState, useEffect } from "react"
+
 import { db } from "../../services/firebaseConfig"
 import { collection, getDocs } from "firebase/firestore"
 
@@ -47,7 +48,11 @@ const Store: React.FC = () => {
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(usersCollectionRef)
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      const stores = data.docs.map((doc) => ({ //carrega os docs do firebase para [stores]
+         ...doc.data(), id: doc.id 
+        })) 
+      setUsers(stores.filter((store: any) => (store.type === "store"))) //filtra
+      console.log(stores)
     }
     getUsers()
   // eslint-disable-next-line react-hooks/exhaustive-deps

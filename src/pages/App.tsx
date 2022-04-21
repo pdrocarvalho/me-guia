@@ -81,8 +81,10 @@ const App: React.FC = () => {
   auth.onAuthStateChanged(async function (user: any) {
     if (user) {
       const userUid = user.uid
-      const docRef = doc(db, 'users', userUid)
-      const docSnap = await getDoc(docRef)
+      const userRef = doc(db, 'users', userUid)
+      
+      const docSnap = await getDoc(userRef)
+      
 
       if (docSnap.exists()) {
         const data = docSnap.data()

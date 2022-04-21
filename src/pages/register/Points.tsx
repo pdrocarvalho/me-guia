@@ -11,7 +11,6 @@ import {
   IonHeader,
   IonInput,
   IonItem,
-  IonItemDivider,
   IonLabel,
   IonList,
   IonPage,
@@ -27,27 +26,35 @@ import './Points.scss'
 import { db } from '../../services/firebaseConfig'
 import { getAuth } from '@firebase/auth'
 import { collection, addDoc } from 'firebase/firestore'
-// import axios from 'axios'
+
 const axios = require('axios')
 const Points: React.FC = () => {
   const auth: any = getAuth()
   const usersCollectionRef = collection(db, 'points')
   const [placeId, setPlaceId] = useState('')
-  const [newName, setNewName] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+  const [newName, setNewName] = useState('Nome do ponto turístico')
+  const [newUrl, setNewUrl] = useState('Cole aqui a URL do Google Maps')
   const [newAddress, setNewAddress] = useState('')
   const [newImg, setNewImg] = useState('')
   const [newDescription, setNewDescription] = useState('')
   const [tag, setTag] = useState('')
+  const [response, setResponse] = useState<any>([])
+  
   const config = {
     method: 'get',
-    url: `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`,
+    url: `https://cors-anywere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`,
     header: {},
   }
+  
+
   const getPlace = async () => {
     await axios(config)
-      .then(function (res: any) {
-        console.log(res.data)
+    //await axios.get(`https://cors-anywere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`)
+      .then(function (response: any) {
+        setResponse(response.data.result)
+        setNewName(response.data.result.name)
+        setNewUrl(response.data.result.url)
+        console.log(response.data.result)
       })
       .catch(function (error: any) {
         console.log(error)
@@ -102,12 +109,12 @@ const Points: React.FC = () => {
           </IonRow>
         </IonGrid>
         <IonInput
-          placeholder="Nome do ponto turístico"
+          placeholder={newName}
           className="primary-input"
           onIonChange={(e: any) => setNewName(e.target.value)}
         ></IonInput>
         <IonInput
-          placeholder="Cole aqui a url do Google Maps"
+          placeholder={newUrl}
           className="primary-input"
           onIonChange={(e: any) => setNewUrl(e.target.value)}
         ></IonInput>

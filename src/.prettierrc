@@ -16,6 +16,6 @@
   "trailingComma": "es5",
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
-  "filepath": "/home/pedro/Dev/tcc/me-guia/src/pages/Report.tsx",
+  "filepath": "/home/pedro/dev/meguia/me-guia/src/pages/App.tsx",
   "parser": "typescript"
 }

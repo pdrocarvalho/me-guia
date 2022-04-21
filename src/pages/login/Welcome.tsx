@@ -41,6 +41,7 @@ const Welcome: React.FC = () => {
   const [userInfo, setUserInfo] = useState('')
   const [error, setError] = useState('')
   const [showAlertErrorAuth, setShowAlertErrorAuth] = useState(false)
+  const [showLoginAlert, setShowLoginAlert] = useState(false)
 
   /* States SIGN IN */
   const [showRegister, setShowRegister] = useState(false)
@@ -72,7 +73,9 @@ const Welcome: React.FC = () => {
   const loginUser = async () => {
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-    } catch (error: any) {
+      await setShowLoginAlert(true)
+      await setShowLogin(false)
+      } catch (error: any) {
       switch (error.message) {
         case 'Firebase: Error (auth/invalid-email).':
           setError('Email inválido!')
@@ -258,6 +261,13 @@ const Welcome: React.FC = () => {
           onDidDismiss={() => setShowAlertErrorAuth(false)}
           header={error}
           message={'Tente novamente'}
+          buttons={['OK']}
+        />
+        <IonAlert
+          isOpen={showLoginAlert}
+          onDidDismiss={() => history.push("/")}
+          header={'Login realizado com sucesso!'}
+          message={''}
           buttons={['OK']}
         />
       </IonContent>
