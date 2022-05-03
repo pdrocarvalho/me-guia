@@ -25,33 +25,33 @@ import {
   IonSlides,
   IonTitle,
   IonToolbar,
-} from "@ionic/react"
+} from '@ionic/react'
 import {
   arrowBack,
   bagHandleOutline,
   bedOutline,
   locationSharp,
-} from "ionicons/icons"
-import React, { useState, useEffect, ReactNode } from "react"
-import { getAuth } from "@firebase/auth"
-import { collection, getDocs } from "@firebase/firestore"
-import { db } from "../../services/firebaseConfig"
+} from 'ionicons/icons'
+import React, { useState, useEffect, ReactNode } from 'react'
+import { getAuth } from '@firebase/auth'
+import { collection, getDocs } from '@firebase/firestore'
+import { db } from '../../services/firebaseConfig'
 
 //import points from '../server/points';
 
-import "./Home.scss"
-import bannerSvg from "../../assets/banner.svg"
+import './Home.scss'
+import bannerSvg from '../../assets/banner.svg'
 
 let placeSelected: any = []
 
 const Home: React.FC = () => {
   const auth = getAuth()
-  const usersCollectionRef = collection(db, "points")
+  const usersCollectionRef = collection(db, 'points')
 
-  const [searchText, setSearchText] = useState("")
+  const [searchText, setSearchText] = useState('')
   const [showSpecs, setShowSpecs] = useState(false)
   const [placeSelected, setPlaceSelected] = useState<any>([])
-  const [userInfo, setUserInfo] = useState("")
+  const [userInfo, setUserInfo] = useState('')
   const [points, setPoints] = useState<any>([])
 
   useEffect(() => {
@@ -64,57 +64,58 @@ const Home: React.FC = () => {
   }, [])
 
   const showDetail = async (id: string) => {
-    const place = await points.find((place: any) => place.place_id === id) // Acha o card selecionado dentro do array
+    const place = await points.find((place: any) => place.id === id) // Acha o card selecionado dentro do array
+    console.log(place)
     setPlaceSelected(place)
     await setShowSpecs(true)
   }
 
   return (
     <IonPage>
-      <IonHeader class="ion-no-border"></IonHeader>
+      <IonHeader class='ion-no-border'></IonHeader>
 
       <IonContent fullscreen={true}>
-        <div className="banner">
+        <div className='banner'>
           <IonToolbar no-border>
-            <IonButtons slot="start">
-              <IonMenuButton color="light" ></IonMenuButton>
+            <IonButtons slot='start'>
+              <IonMenuButton color='light'></IonMenuButton>
             </IonButtons>
             <IonTitle>Olá!</IonTitle>
           </IonToolbar>
-          <img alt="" src={bannerSvg} />
+          <img alt='' src={bannerSvg} />
 
-          <div className="heading ion-padding">
+          <div className='heading ion-padding'>
             Descubra <br></br>
             seu caminho!
           </div>
         </div>
-        <div className="search">
+        <div className='search'>
           <IonSearchbar
-            inputmode="search"
+            inputmode='search'
             animated={true}
             onIonChange={(e) => setSearchText(e.detail.value!)}
-            placeholder="Pra onde quer ir...?"
+            placeholder='Pra onde quer ir...?'
           ></IonSearchbar>
         </div>
 
-        <div className="navButtons ">
+        <div className='navButtons '>
           <IonToolbar>
             <IonButton
-              routerLink="/store"
-              slot="end"
-              size="default"
-              fill="outline"
-              color="danger"
+              routerLink='/store'
+              slot='end'
+              size='default'
+              fill='outline'
+              color='danger'
             >
               <IonIcon icon={bagHandleOutline}></IonIcon>
               <IonLabel>Comércio</IonLabel>
             </IonButton>
             <IonButton
-              routerLink="/hostel"
-              slot="end"
-              size="default"
-              fill="outline"
-              color="danger"
+              routerLink='/hostel'
+              slot='end'
+              size='default'
+              fill='outline'
+              color='danger'
             >
               <IonIcon icon={bedOutline}></IonIcon>
               <IonLabel>Hospedagem</IonLabel>
@@ -122,13 +123,13 @@ const Home: React.FC = () => {
           </IonToolbar>
         </div>
         {/* Slides Destinos */}
-        <div className="title2">
+        <div className='title2'>
           <h2>Destinos</h2>
         </div>
 
         {points
           .filter((places: any) => {
-            if (searchText === "") {
+            if (searchText === '') {
               return places
             } else if (
               places.name.toLowerCase().includes(searchText.toLowerCase())
@@ -139,16 +140,16 @@ const Home: React.FC = () => {
           .map((places: any, index: any) => {
             return (
               <IonCard
-                className="card"
+                className='card'
                 key={`slide_${index}`}
                 button={true}
-                onClick={(e) => showDetail(`${places.place_id}`)}
+                onClick={(e) => showDetail(`${places.id}`)}
               >
-                <img src={places.img} alt="cardImg" className="image" />
+                <img src={places.img} alt='cardImg' className='image' />
 
                 <IonCardHeader>
-                  <IonCardTitle className="title">{places.name}</IonCardTitle>
-                  <IonCardSubtitle className="subtitle">
+                  <IonCardTitle className='title'>{places.name}</IonCardTitle>
+                  <IonCardSubtitle className='subtitle'>
                     {places.tag}
                   </IonCardSubtitle>
                 </IonCardHeader>
@@ -158,36 +159,36 @@ const Home: React.FC = () => {
 
         {/* Modal dos pontos turísticos */}
 
-        <IonModal isOpen={showSpecs} cssClass="specs-modal">
-          <IonContent className="specs">
-            <IonFab vertical="top" horizontal="start" slot="fixed">
-              <IonFabButton size="small" onClick={() => setShowSpecs(false)}>
+        <IonModal isOpen={showSpecs} cssClass='specs-modal'>
+          <IonContent className='specs'>
+            <IonFab vertical='top' horizontal='start' slot='fixed'>
+              <IonFabButton size='small' onClick={() => setShowSpecs(false)}>
                 <IonIcon icon={arrowBack} />
               </IonFabButton>
             </IonFab>
-            <div className="imgHeader">
-              <img alt="" className="" src={placeSelected.img}></img>
+            <div className='imgHeader'>
+              <img alt='' className='' src={placeSelected.img}></img>
             </div>
 
-            <div className="background">
-              <div className="title">
+            <div className='background'>
+              <div className='title'>
                 <IonTitle>{placeSelected.name}</IonTitle>
               </div>
 
               <IonGrid>
                 <IonRow>
-                  <IonCol className="ion-align-self-center address">
+                  <IonCol className='ion-align-self-center address'>
                     {placeSelected.formatted_address}
                   </IonCol>
-                  <IonCol className="ion-align-self-center">
+                  <IonCol className='ion-align-self-center'>
                     <IonButton
-                      className="loc"
-                      fill="outline"
+                      className='loc'
+                      fill='outline'
                       href={placeSelected.url}
                     >
                       <IonIcon
-                        slot="icon-only"
-                        color="primary"
+                        slot='icon-only'
+                        color='primary'
                         icon={locationSharp}
                       />
                       <IonLabel>Me guia!</IonLabel>
@@ -196,12 +197,12 @@ const Home: React.FC = () => {
                 </IonRow>
               </IonGrid>
 
-              <div className="description">
+              <div className='description'>
                 <IonTitle>Descrição</IonTitle>
                 <IonNote>{placeSelected.description}</IonNote>
               </div>
 
-              <div className="close ion-margin-top ion-text-center"></div>
+              <div className='close ion-margin-top ion-text-center'></div>
             </div>
           </IonContent>
         </IonModal>

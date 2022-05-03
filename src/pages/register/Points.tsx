@@ -3,21 +3,10 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCheckbox,
-  IonCol,
   IonContent,
-  IonDatetime,
-  IonGrid,
   IonHeader,
-  IonInput,
-  IonItem,
   IonLabel,
-  IonList,
   IonPage,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonTextarea,
   IonToolbar,
 } from '@ionic/react'
 import { arrowBack } from 'ionicons/icons'
@@ -26,67 +15,71 @@ import './Points.scss'
 import { db } from '../../services/firebaseConfig'
 import { getAuth } from '@firebase/auth'
 import { collection, addDoc } from 'firebase/firestore'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import schema from './pointSchema'
 
 const axios = require('axios')
+
 const Points: React.FC = () => {
   const auth: any = getAuth()
   const usersCollectionRef = collection(db, 'points')
-  const [placeId, setPlaceId] = useState('')
-  const [newName, setNewName] = useState('Nome do ponto turístico')
-  const [newUrl, setNewUrl] = useState('Cole aqui a URL do Google Maps')
-  const [newAddress, setNewAddress] = useState('')
-  const [newImg, setNewImg] = useState('')
-  const [newDescription, setNewDescription] = useState('')
-  const [tag, setTag] = useState('')
-  const [response, setResponse] = useState<any>([])
-  
-  const config = {
-    method: 'get',
-    url: `https://cors-anywere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`,
-    header: {},
-  }
-  
 
-  const getPlace = async () => {
-    await axios(config)
-    //await axios.get(`https://cors-anywere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`)
+  const getPlace = async (ev: any, setFieldValue: any) => {
+    const request = {
+      method: 'get',
+      url: `https://cors-anywere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id=${ev.target.value}&key=AIzaSyCNnkyQyi1Im0cwqEHZb80KNoQXUF1un4k`,
+      header: {},
+    }
+
+    await axios(request)
       .then(function (response: any) {
-        setResponse(response.data.result)
-        setNewName(response.data.result.name)
-        setNewUrl(response.data.result.url)
+        setFieldValue('name', response.data.result.name)
+        setFieldValue('url', response.data.result.url)
+        setFieldValue(
+          'formatted_address',
+          response.data.result.formatted_address
+        )
+        setFieldValue('name', response.data.result.name)
+        setFieldValue('name', response.data.result.name)
+        setFieldValue('name', response.data.result.name)
+        setFieldValue('name', response.data.result.name)
         console.log(response.data.result)
       })
       .catch(function (error: any) {
         console.log(error)
       })
   }
-  const createPoint = async () => {
+
+  const onSubmit = async (values: any, actions: any) => {
+    console.log(values)
+    const data = values
     await addDoc(usersCollectionRef, {
-      place_id: placeId,
-      name: newName,
-      url: newUrl,
-      fromated_address: newAddress,
-      img: newImg,
-      description: newDescription,
-      tag: tag,
+      place_id: data.place_id,
+      name: data.name,
+      url: data.url,
+      formatted_address: data.formatted_address,
+      img: data.img,
+      description: data.description,
+      tag: data.tag,
+      isCovered: data.isCovered,
     })
   }
 
   return (
     <IonPage>
-      <IonHeader className="ion-no-border">
+      <IonHeader className='ion-no-border'>
         <IonToolbar>
-          <IonButtons slot="start">
+          <IonButtons slot='start'>
             <IonBackButton
-              defaultHref="/"
-              color="primary"
+              defaultHref='/'
+              color='primary'
               icon={arrowBack}
             ></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <div className="ion-text-center titleSignup">
+      <IonContent className='ion-padding'>
+        <div className='ion-text-center titleSignup'>
           <h4> Cadastre seu ponto turístico! </h4>
           <p>
             {' '}
@@ -94,148 +87,114 @@ const Points: React.FC = () => {
             turístico. Tente conseguir o máximo de informações.{' '}
           </p>
         </div>
-        <IonGrid className="ion-no-margin">
-          <IonRow>
-            <IonCol size="8">
-              <IonInput
-                placeholder="ID do Google Maps"
-                className="primary-input"
-                onIonChange={(e: any) => setPlaceId(e.target.value)}
-              ></IonInput>
-            </IonCol>
-            <IonCol size="2">
-              <IonButton onClick={getPlace}>Checar ID</IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-        <IonInput
-          placeholder={newName}
-          className="primary-input"
-          onIonChange={(e: any) => setNewName(e.target.value)}
-        ></IonInput>
-        <IonInput
-          placeholder={newUrl}
-          className="primary-input"
-          onIonChange={(e: any) => setNewUrl(e.target.value)}
-        ></IonInput>
-        <IonInput
-          placeholder="Escreva aqui o endereço do ponto turístico"
-          className="primary-input"
-          onIonChange={(e: any) => setNewAddress(e.target.value)}
-        ></IonInput>
-        <IonInput
-          placeholder="Url da imagem mais bonita do ponto turístico"
-          className="primary-input"
-          onIonChange={(e: any) => setNewImg(e.target.value)}
-        ></IonInput>
-        <IonTextarea
-          rows={6}
-          cols={20}
-          placeholder="Escreva uma breve descrição do ponto turístico"
-          className="primary-input"
-          onIonChange={(e: any) => setNewDescription(e.target.value)}
-        ></IonTextarea>
-        <p />
-        <IonLabel>Selecione o tipo de ponto turístico: </IonLabel>
 
-        <IonSelect
-          value={tag}
-          placeholder="Escolha um"
-          onIonChange={(e: any) => setTag(e.target.value)}
-        >
-          <IonSelectOption value="Praia">Praia</IonSelectOption>
-          <IonSelectOption value="Ponto Histórico">
-            Ponto Histórico
-          </IonSelectOption>
-        </IonSelect>
-        <p />
+        <div className='formulario'>
+          <Formik
+            validateOnMount
+            validationSchema={schema}
+            onSubmit={onSubmit}
+            initialValues={{
+              place_id: '',
+              name: '',
+              formatted_address: '',
+              description: '',
+              tag: '',
+              url: '',
+              img: '',
+              isCovered: '',
+            }}
+          >
+            {({ values, errors, touched, setFieldValue }) => (
+              <Form>
+                <div>
+                  <IonLabel>Place id</IonLabel>
+                  <Field
+                    name='place_id'
+                    className='primary-input'
+                    type='text'
+                    onBlur={(ev: any) => getPlace(ev, setFieldValue)}
+                  />
+                </div>
 
-        <h4> Quais dias o estabelecimento funciona?</h4>
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonLabel color="danger">D</IonLabel>
-              <br></br>
-              <IonCheckbox color="danger" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="primary">S</IonLabel>
-              <br></br>
-              <IonCheckbox color="primary" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="primary">T</IonLabel>
-              <br></br>
-              <IonCheckbox color="primary" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="primary">Q</IonLabel>
-              <br></br>
-              <IonCheckbox color="primary" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="primary">Q</IonLabel>
-              <br></br>
-              <IonCheckbox color="primary" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="primary">S</IonLabel>
-              <br></br>
-              <IonCheckbox color="primary" />
-            </IonCol>
-            <IonCol>
-              <IonLabel color="danger">S</IonLabel>
-              <br></br>
-              <IonCheckbox color="danger" />
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+                <div>
+                  <IonLabel>Nome do ponto</IonLabel>
+                  <Field name='name' className='primary-input' type='text' />
+                  <ErrorMessage name='name' />
+                </div>
 
-        <IonList>
-          <IonLabel color="primary">
-            <h2>Qual horário o estabelecimento abre?</h2>
-          </IonLabel>
-          <IonItem>
-            <IonLabel>Dias úteis</IonLabel>
-            <IonDatetime
-              displayFormat="h m A"
-              placeholder="Select Date"
-            ></IonDatetime>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Sab. Dom. e feriados</IonLabel>
-            <IonDatetime
-              displayFormat="h m A"
-              placeholder="Select Date"
-            ></IonDatetime>
-          </IonItem>
-          <br></br>
-          <IonLabel color="primary">
-            <h2>Qual horário o estabelecimento abre?</h2>
-          </IonLabel>
-          <IonItem>
-            <IonLabel>Dias úteis</IonLabel>
-            <IonDatetime
-              displayFormat="h m A"
-              placeholder="Select Date"
-            ></IonDatetime>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Sab. Dom. e feriados</IonLabel>
-            <IonDatetime
-              displayFormat="h m A"
-              placeholder="Select Date"
-            ></IonDatetime>
-          </IonItem>
-        </IonList>
+                <div>
+                  <IonLabel>Url do google Maps</IonLabel>
+                  <Field name='url' className='primary-input' type='text' />
+                  <ErrorMessage name='url' />
+                </div>
 
-        <IonButton
-          expand="block"
-          className="ion-margin-top button"
-          onClick={createPoint}
-        >
-          ENVIAR
-        </IonButton>
+                <div>
+                  <IonLabel>Endereço</IonLabel>
+                  <Field
+                    name='formatted_address'
+                    className='primary-input'
+                    type='text'
+                  />
+                  <ErrorMessage name='formatted_address' />
+                </div>
+
+                <div>
+                  <IonLabel>Url de imagem</IonLabel>
+                  <Field name='img' className='primary-input' type='text' />
+                  <ErrorMessage name='img' />
+                </div>
+
+                <div>
+                  <IonLabel>Descrição</IonLabel>
+                  <Field
+                    name='description'
+                    className='primary-input'
+                    type='text'
+                  />
+                  <ErrorMessage name='description' />
+                </div>
+
+                <div>
+                  <IonLabel>Tipo de ponto:</IonLabel>
+                  <Field
+                    name='tag'
+                    component='select'
+                    className='primary-input'
+                    type='text'
+                  >
+                    <option value=''>Selecione um tipo</option>
+                    <option value='praia'>Praia</option>
+                    <option value='turistico'>Ponto Turístico</option>
+                    <option value='historico'>Ponto Histórico</option>
+                  </Field>
+                  <ErrorMessage name='tag' />
+                </div>
+
+                <div>
+                  <IonLabel>O local é coberto?</IonLabel>
+                  <Field
+                    name='isCovered'
+                    component='select'
+                    className='primary-input'
+                    type='text'
+                  >
+                    <option value=''>Selecione uma opção</option>
+                    <option value='true'>Sim</option>
+                    <option value='false'>Não</option>
+                  </Field>
+                  <ErrorMessage name='isCovered' />
+                </div>
+                <IonButton
+                  expand='block'
+                  className='ion-margin-top button'
+                  type='submit'
+                >
+                  Enviar
+                </IonButton>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </IonContent>
     </IonPage>
   )
