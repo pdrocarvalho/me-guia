@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .button {
     --border-radius: 23px;
 
@@ -7,11 +13,25 @@
     background: aliceblue;
     border-radius: 23px;
     margin-bottom: 14px;
-    
-    
+    border-style:none;
+    height: 2.25rem;
+    width: 100%;
+    resize: vertical;
+    padding: 0.25rem 0.5rem;
+    padding-inline-start: 1rem;
     --color: var(--ion-color-primary);
-    --padding-start: 10px !important;
+    --padding-start: 1rem !important;
     
+}
+
+
+.labels {
+font-size: 1.05rem;
+color: var(--ion-color-dark-tint);
+}
+
+.errors {
+    color: var(--ion-color-danger);
 }
 
 .titleSignup {
@@ -32,4 +52,7 @@
     color: var(--ion-color-dark-tint);
     font-size: small;
     text-align: justify;
+}
+.titleSignup span {
+    text-decoration-line: underline;
 }

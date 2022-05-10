@@ -8,8 +8,11 @@ import {
   IonLabel,
   IonPage,
   IonToolbar,
+  IonAlert,
+  IonTitle,
 } from '@ionic/react'
 import { arrowBack } from 'ionicons/icons'
+import { useHistory } from 'react-router'
 
 import './Points.scss'
 import { db } from '../../services/firebaseConfig'
@@ -24,6 +27,10 @@ const Points: React.FC = () => {
   const auth: any = getAuth()
   const usersCollectionRef = collection(db, 'points')
 
+  let history = useHistory()
+
+  const [showAlert, setShowAlert] = useState(false)
+
   const getPlace = async (ev: any, setFieldValue: any) => {
     const request = {
       method: 'get',
@@ -35,10 +42,7 @@ const Points: React.FC = () => {
       .then(function (response: any) {
         setFieldValue('name', response.data.result.name)
         setFieldValue('url', response.data.result.url)
-        setFieldValue(
-          'formatted_address',
-          response.data.result.formatted_address
-        )
+        setFieldValue('formatted_address', response.data.result.formatted_address)
         setFieldValue('name', response.data.result.name)
         setFieldValue('name', response.data.result.name)
         setFieldValue('name', response.data.result.name)
@@ -63,6 +67,7 @@ const Points: React.FC = () => {
       tag: data.tag,
       isCovered: data.isCovered,
     })
+    setShowAlert(true)
   }
 
   return (
@@ -79,12 +84,29 @@ const Points: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => history.push('/admin/panel')}
+          header={'Sucesso!'}
+          message={'O ponto foi cadastrado com sucesso.'}
+          buttons={[
+            {
+              text: 'Ok',
+              handler: () => {
+                setShowAlert(false)
+              },
+            },
+          ]}
+        />
         <div className='ion-text-center titleSignup'>
           <h4> Cadastre seu ponto turístico! </h4>
           <p>
             {' '}
-            Preencha todas as informações disponíveis sobre o novo ponto
-            turístico. Tente conseguir o máximo de informações.{' '}
+            Preencha todas as informações disponíveis sobre o novo ponto turístico. Tente
+            conseguir o máximo de informações.{' '}
+            <span>
+              Preencher o Place id não é necessário mas te ajudará no processo.
+            </span>{' '}
           </p>
         </div>
 
@@ -104,74 +126,75 @@ const Points: React.FC = () => {
               isCovered: '',
             }}
           >
-            {({ values, errors, touched, setFieldValue }) => (
+            {({ values, errors, touched, setFieldValue, handleReset }) => (
               <Form>
                 <div>
-                  <IonLabel>Place id</IonLabel>
+                  <IonTitle className='labels'>Place id:</IonTitle>
                   <Field
                     name='place_id'
-                    className='primary-input'
                     type='text'
+                    className='primary-input'
                     onBlur={(ev: any) => getPlace(ev, setFieldValue)}
                   />
                 </div>
 
                 <div>
-                  <IonLabel>Nome do ponto</IonLabel>
+                  <IonTitle className='labels'>Nome do ponto:</IonTitle>
                   <Field name='name' className='primary-input' type='text' />
-                  <ErrorMessage name='name' />
+                  <ErrorMessage component='span' className='errors' name='name' />
                 </div>
 
                 <div>
-                  <IonLabel>Url do google Maps</IonLabel>
+                  <IonTitle className='labels'>Url do google Maps:</IonTitle>
                   <Field name='url' className='primary-input' type='text' />
-                  <ErrorMessage name='url' />
+                  <ErrorMessage component='span' className='errors' name='url' />
                 </div>
 
                 <div>
-                  <IonLabel>Endereço</IonLabel>
-                  <Field
+                  <IonTitle className='labels'>Endereço:</IonTitle>
+                  <Field name='formatted_address' className='primary-input' type='text' />
+                  <ErrorMessage
+                    component='span'
+                    className='errors'
                     name='formatted_address'
-                    className='primary-input'
-                    type='text'
                   />
-                  <ErrorMessage name='formatted_address' />
                 </div>
 
                 <div>
-                  <IonLabel>Url de imagem</IonLabel>
+                  <IonTitle className='labels'>Url da imagem:</IonTitle>
                   <Field name='img' className='primary-input' type='text' />
-                  <ErrorMessage name='img' />
+                  <ErrorMessage component='span' className='errors' name='img' />
                 </div>
 
                 <div>
-                  <IonLabel>Descrição</IonLabel>
-                  <Field
-                    name='description'
-                    className='primary-input'
-                    type='text'
-                  />
-                  <ErrorMessage name='description' />
+                  <IonTitle className='labels'>Descrição:</IonTitle>
+                  <Field name='description' className='primary-input' as='textarea' />
+                  <ErrorMessage component='span' className='errors' name='description' />
                 </div>
 
                 <div>
-                  <IonLabel>Tipo de ponto:</IonLabel>
+                  <IonTitle className='labels'>Tipo de ponto:</IonTitle>
                   <Field
                     name='tag'
                     component='select'
                     className='primary-input'
                     type='text'
                   >
-                    <option value=''>Selecione um tipo</option>
-                    <option value='praia'>Praia</option>
-                    <option value='turistico'>Ponto Turístico</option>
-                    <option value='historico'>Ponto Histórico</option>
+                    <option value=''>Selecione um tipo:</option>
+                    <option value='Atrativo Natural'>
+                      Atrativo Natural: praias e ilhas
+                    </option>
+                    <option value='Atrativo Cultural'>
+                      Atrativo Cultural: monumentos históricos
+                    </option>
+                    <option value='Ecoturismo'>Ecoturismo: Trilhas e Paisagens</option>
+                    <option value='Esporte'>Esporte</option>
                   </Field>
-                  <ErrorMessage name='tag' />
+                  <ErrorMessage component='span' className='errors' name='tag' />
                 </div>
 
                 <div>
-                  <IonLabel>O local é coberto?</IonLabel>
+                  <IonTitle className='labels'>O local é coberto?</IonTitle>
                   <Field
                     name='isCovered'
                     component='select'
@@ -182,12 +205,13 @@ const Points: React.FC = () => {
                     <option value='true'>Sim</option>
                     <option value='false'>Não</option>
                   </Field>
-                  <ErrorMessage name='isCovered' />
+                  <ErrorMessage component='span' className='errors' name='isCovered' />
                 </div>
                 <IonButton
                   expand='block'
                   className='ion-margin-top button'
                   type='submit'
+                  onClick={handleReset}
                 >
                   Enviar
                 </IonButton>

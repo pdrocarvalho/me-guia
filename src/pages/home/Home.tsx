@@ -37,6 +37,7 @@ import { getAuth } from '@firebase/auth'
 import { collection, getDocs } from '@firebase/firestore'
 import { db } from '../../services/firebaseConfig'
 
+
 //import points from '../server/points';
 
 import './Home.scss'

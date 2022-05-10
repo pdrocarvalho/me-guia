@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import { Route, Redirect, BrowserRouter } from 'react-router-dom'
 import {
   IonApp,
   IonMenu,
@@ -17,6 +17,7 @@ import { useState } from 'react'
 import { auth, db } from '../services/firebaseConfig'
 import { doc, getDoc } from '@firebase/firestore'
 import { signOut } from '@firebase/auth'
+import { isAuthenticated } from './isAuthenticated'
 /* Import pages */
 import Home from './home/Home'
 import Hostel from './commerce/Hostel'
@@ -56,6 +57,7 @@ import '../theme/custom-tab-bar.css'
 import bannerSvg from '../assets/banner.svg'
 import avatar from '../assets/avatar.png'
 
+
 const App: React.FC = () => {
   /* SHOW CURRENT USER  */
   const [userInfo, setUserInfo] = useState(false)
@@ -67,9 +69,9 @@ const App: React.FC = () => {
   //     const user = auth.currentUser
   //   }
   // }, [])
-  
-/*LogOut e Atualiza a página */
-  const logoutUser = async () => { 
+
+  /*LogOut e Atualiza a página */
+  const logoutUser = async () => {
     try {
       await signOut(auth)
       window.location.reload()
@@ -82,9 +84,8 @@ const App: React.FC = () => {
     if (user) {
       const userUid = user.uid
       const userRef = doc(db, 'users', userUid)
-      
+
       const docSnap = await getDoc(userRef)
-      
 
       if (docSnap.exists()) {
         const data = docSnap.data()
@@ -93,6 +94,7 @@ const App: React.FC = () => {
         console.log(data.store_name)
         console.log('Doc data:', docSnap.data())
         console.log('user logged in')
+        console.log(userInfo)
       } else {
         console.log('User with no data')
       }
@@ -110,75 +112,71 @@ const App: React.FC = () => {
       setAdmButton(true)
     }
   }
-
+  
   return (
     <IonApp>
       {/* SIDE MENU */}
       <IonReactRouter>
-        <IonMenu menuId="menu-home" contentId="main" swipeGesture={false}>
+        <IonMenu menuId='menu-home' contentId='main' swipeGesture={false}>
           <IonContent>
-            <div className="menu-header-bg">
-              <img alt="" src={bannerSvg}></img>
+            <div className='menu-header-bg'>
+              <img alt='' src={bannerSvg}></img>
             </div>
-            <div className="header-content">
-              <img alt="avatar" src={avatar} />
+            <div className='header-content'>
+              <img alt='avatar' src={avatar} />
               <IonLabel>
                 <h2>{displayName}</h2>
               </IonLabel>
             </div>
 
-            <IonList lines="none">
+            <IonList lines='none'>
               <IonItem onClick={checkAdmin}>
                 <IonLabel>Olá, {displayName}!</IonLabel>
               </IonItem>
 
-              <IonItem href="/welcome">
-                <IonIcon icon={alertCircleOutline} slot="end" />
+              <IonItem href='/welcome'>
+                <IonIcon icon={alertCircleOutline} slot='end' />
                 <IonLabel> Anuncie no nosso app! </IonLabel>
               </IonItem>
 
-              <IonItem href="/report">
-                <IonIcon icon={chatbubbleEllipsesOutline} slot="end" />
+              <IonItem href='/report'>
+                <IonIcon icon={chatbubbleEllipsesOutline} slot='end' />
                 <IonLabel>Fale conosco</IonLabel>
               </IonItem>
               <IonItem onClick={logoutUser}>
-                <IonIcon icon={chatbubbleEllipsesOutline} slot="end" />
+                <IonIcon icon={chatbubbleEllipsesOutline} slot='end' />
                 <IonLabel>Deslogar</IonLabel>
               </IonItem>
             </IonList>
             <IonButton
-              expand="block"
+              expand='block'
               disabled={admButton}
-              className="adm-button"
-              fill="solid"
-              href="/admin/panel"
+              className='adm-button'
+              fill='solid'
+              href='/admin/panel'
             >
               Painel Adiminstrador
             </IonButton>
           </IonContent>
         </IonMenu>
-        <IonRouterOutlet id="main"></IonRouterOutlet>
+        <IonRouterOutlet id='main'></IonRouterOutlet>
       </IonReactRouter>
 
       {/* ROTAS */}
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path="/" component={Home} exact />
-          <Route path="/hostel" component={Hostel} exact />
-          <Route path="/store" component={Store} exact />
-          <Route path="/welcome" component={Welcome} exact />
-          <Route
-            path="/welcome/forgotpassword"
-            component={ForgotPassword}
-            exact
-          />
-          <Route path="/register/points" component={Points} exact />
-          <Route path="/register/client" component={Client} exact />
-          <Route path="/report" component={Report} exact />
-          <Route path="/admin/panel" component={Panel} exact />
-          <Route path="/admin/report" component={ReportAdm} exact />
-          <Route path="/admin/editpoints" component={EditPoints} exact />
-          <Route path="/admin/deletepoints" component={DeletePoints} exact />
+          <Route path='/' component={Home} exact />
+          <Route path='/hostel' component={Hostel} exact />
+          <Route path='/store' component={Store} exact />
+          <Route path='/welcome' component={Welcome} exact />
+          <Route path='/welcome/forgotpassword' component={ForgotPassword} exact />
+          <Route path='/register/points' component={Points} exact />
+          <Route path='/register/client' component={Client} exact />
+          <Route path='/report' component={Report} exact />
+          <Route path='/admin/panel' component={Panel} exact />
+          <Route path='/admin/report' component={ReportAdm} exact />
+          <Route path='/admin/editpoints' component={EditPoints} exact />
+          <Route path='/admin/deletepoints' component={DeletePoints} exact />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>
