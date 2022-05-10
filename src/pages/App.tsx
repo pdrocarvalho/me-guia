@@ -24,12 +24,12 @@ import Hostel from './commerce/Hostel'
 import Store from './commerce/Store'
 import Welcome from './login/Welcome'
 import ForgotPassword from './login/forgotPassword/ForgotPassword'
-import Points from './register/Points'
-import Client from './register/Client'
+import CreatePoint from './admin/points/CreatePoint'
+import CreateClient from './user/CreateClient'
 import Report from './sac/Report'
-import Panel from './admin/Panel'
-import ReportAdm from './admin/sac/report'
-import EditPoints from './admin/points/EditPoints'
+import AdminPanel from './admin/AdminPanel'
+import ReportView from './admin/sac/ReportView'
+import EditPoint from './admin/points/EditPoint'
 import DeletePoints from './admin/points/DeletePoints'
 
 /* Core CSS required for Ionic components to work properly */
@@ -56,7 +56,6 @@ import '../theme/custom-tab-bar.css'
 /* Import assets */
 import bannerSvg from '../assets/banner.svg'
 import avatar from '../assets/avatar.png'
-
 
 const App: React.FC = () => {
   /* SHOW CURRENT USER  */
@@ -112,7 +111,7 @@ const App: React.FC = () => {
       setAdmButton(true)
     }
   }
-  
+
   return (
     <IonApp>
       {/* SIDE MENU */}
@@ -153,7 +152,7 @@ const App: React.FC = () => {
               disabled={admButton}
               className='adm-button'
               fill='solid'
-              href='/admin/panel'
+              href='/admin/adminPanel'
             >
               Painel Adiminstrador
             </IonButton>
@@ -170,12 +169,12 @@ const App: React.FC = () => {
           <Route path='/store' component={Store} exact />
           <Route path='/welcome' component={Welcome} exact />
           <Route path='/welcome/forgotpassword' component={ForgotPassword} exact />
-          <Route path='/register/points' component={Points} exact />
-          <Route path='/register/client' component={Client} exact />
+          <Route path='/admin/createPoint' component={CreatePoint} exact />
+          <Route path='/register/client' component={CreateClient} exact />
           <Route path='/report' component={Report} exact />
-          <Route path='/admin/panel' component={Panel} exact />
-          <Route path='/admin/report' component={ReportAdm} exact />
-          <Route path='/admin/editpoints' component={EditPoints} exact />
+          <Route path='/admin/adminPanel' component={AdminPanel} exact />
+          <Route path='/admin/reportView' component={ReportView} exact />
+          <Route path='/admin/editPoint' component={EditPoint} exact />
           <Route path='/admin/deletepoints' component={DeletePoints} exact />
         </IonRouterOutlet>
       </IonReactRouter>

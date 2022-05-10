@@ -43,16 +43,15 @@ import { db } from '../../services/firebaseConfig'
 import './Home.scss'
 import bannerSvg from '../../assets/banner.svg'
 
-let placeSelected: any = []
+
 
 const Home: React.FC = () => {
-  const auth = getAuth()
+  
   const usersCollectionRef = collection(db, 'points')
 
   const [searchText, setSearchText] = useState('')
   const [showSpecs, setShowSpecs] = useState(false)
   const [placeSelected, setPlaceSelected] = useState<any>([])
-  const [userInfo, setUserInfo] = useState('')
   const [points, setPoints] = useState<any>([])
 
   useEffect(() => {

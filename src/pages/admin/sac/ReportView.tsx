@@ -13,7 +13,7 @@ import {
 import { onSnapshot, orderBy, query } from '@firebase/firestore'
 import { collection } from '@firebase/firestore'
 import { db } from '../../../services/firebaseConfig'
-import './report.scss'
+import './ReportView.scss'
 import { arrowBack } from 'ionicons/icons'
 
 const ReportAdm: React.FC = () => {
@@ -40,12 +40,12 @@ const ReportAdm: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen={true}>
-        <IonFab vertical="top" horizontal="start" slot="fixed">
-          <IonFabButton size="small" routerLink="/admin/panel">
+        <IonFab vertical='top' horizontal='start' slot='fixed'>
+          <IonFabButton size='small' routerLink='/admin/panel'>
             <IonIcon icon={arrowBack} />
           </IonFabButton>
         </IonFab>
-        <div className="list-report">
+        <div className='list-report'>
           <h1>Reports</h1>
           {reports.map((reports: any, index: any) => {
             return (
@@ -65,19 +65,19 @@ const ReportAdm: React.FC = () => {
             )
           })}
         </div>
-        <IonModal isOpen={showReport} cssClass="report-modal">
-          <IonContent className="content-report" fullscreen={true}>
-            <IonFab vertical="top" horizontal="start" slot="fixed">
-              <IonFabButton size="small" onClick={() => setShowReport(false)}>
+        <IonModal isOpen={showReport} cssClass='report-modal'>
+          <IonContent className='content-report' fullscreen={true}>
+            <IonFab vertical='top' horizontal='start' slot='fixed'>
+              <IonFabButton size='small' onClick={() => setShowReport(false)}>
                 <IonIcon icon={arrowBack} />
               </IonFabButton>
             </IonFab>
-            <div className="header">
+            <div className='header'>
               <h1>{reportSelected.name}</h1>
               <h3>{reportSelected.email}</h3>
               <p>{reportSelected.date}</p>
             </div>
-            <div className="report">
+            <div className='report'>
               <h2>Report:</h2>
               <p>{reportSelected.description}</p>
             </div>

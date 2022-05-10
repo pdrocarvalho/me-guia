@@ -26,7 +26,7 @@ import {
 } from '@ionic/react'
 import { arrowBack, server } from 'ionicons/icons'
 
-import './Client.scss'
+import './CreateClient.scss'
 import { getAuth, updateProfile } from '@firebase/auth'
 import { doc, collection, setDoc, serverTimestamp } from '@firebase/firestore'
 import { db } from '../../services/firebaseConfig'

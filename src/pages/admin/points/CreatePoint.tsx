@@ -14,12 +14,13 @@ import {
 import { arrowBack } from 'ionicons/icons'
 import { useHistory } from 'react-router'
 
-import './Points.scss'
-import { db } from '../../services/firebaseConfig'
+import { db } from '../../../services/firebaseConfig'
 import { getAuth } from '@firebase/auth'
 import { collection, addDoc } from 'firebase/firestore'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import schema from './pointSchema'
+
+import './CreatePoint.scss'
 
 const axios = require('axios')
 
