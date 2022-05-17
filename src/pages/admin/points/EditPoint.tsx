@@ -17,6 +17,7 @@ import {
   IonFabButton,
   IonIcon,
   IonTitle,
+  IonAlert,
 } from '@ionic/react'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
@@ -24,11 +25,14 @@ import { getAuth } from '@firebase/auth'
 import { collection, getDocs, updateDoc, doc } from '@firebase/firestore'
 import { db } from '../../../services/firebaseConfig'
 import { arrowBack, closeOutline } from 'ionicons/icons'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import schema from './pointSchema'
 
 import './EditPoint.scss'
 
 const EditPoints: React.FC = () => {
-  const auth = getAuth()
+  const history = useHistory()
+
   const pointsCollectionRef = collection(db, 'points')
   /*State Searchbar */
   const [searchText, setSearchText] = useState('')
@@ -37,12 +41,9 @@ const EditPoints: React.FC = () => {
   /*State Modal */
   const [showSpecs, setShowSpecs] = useState(false)
   const [placeSelected, setPlaceSelected] = useState<any>([])
-  const [placeName, setPlaceName] = useState('')
-  const [placeAddress, setPlaceAddress] = useState('')
-  const [placeDescription, setPlaceDescription] = useState('')
-  const [placeImage, setPlaceImage] = useState('')
-  const [placeTag, setPlaceTag] = useState('')
-  const [placeUrl, setPlaceUrl] = useState('')
+
+  /*State Alert */
+  const [showAlert, setShowAlert] = useState(false)
 
   useEffect(() => {
     const getPoints = async () => {
@@ -55,61 +56,61 @@ const EditPoints: React.FC = () => {
   const showDetail = async (id: string) => {
     const place = await points.find((place: any) => place.id === id) // Acha o card selecionado dentro do array
     setPlaceSelected(place)
-    await setShowSpecs(true)
+    setShowSpecs(true)
   }
 
-  const updateName = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
-    const newData = {
-      name: placeName,
-    }
-    await updateDoc(pointDoc, newData)
+  const getPlace = (setFieldValue: any) => {
+    const response = placeSelected
+    setFieldValue('name', response.name)
+    setFieldValue('url', response.url)
+    setFieldValue('formatted_address', response.formatted_address)
+    setFieldValue('img', response.img)
+    setFieldValue('description', response.description)
+    setFieldValue('tag', response.tag)
+    setFieldValue('isCovered', response.isCovered)
+    setFieldValue('place_id', response.place_id)
   }
 
-  const updateAddress = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
+  const onSubmit = async (values: any) => {
+    const id = placeSelected.id
+    const docRef = doc(db, 'points', id)
     const newData = {
-      formatted_address: placeAddress,
+      place_id: values.place_id,
+      name: values.name,
+      url: values.url,
+      formatted_address: values.formatted_address,
+      img: values.img,
+      description: values.description,
+      tag: values.tag,
+      isCovered: values.isCovered,
     }
-    await updateDoc(pointDoc, newData)
-  }
-
-  const updateDescription = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
-    const newData = {
-      description: placeDescription,
-    }
-    await updateDoc(pointDoc, newData)
-  }
-
-  const updateImage = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
-    const newData = {
-      img: placeImage,
-    }
-    await updateDoc(pointDoc, newData)
-  }
-
-  const updateTag = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
-    const newData = {
-      tag: placeTag,
-    }
-    await updateDoc(pointDoc, newData)
-  }
-
-  const updateUrl = async (id: string) => {
-    const pointDoc = doc(db, 'points', id)
-    const newData = {
-      url: placeUrl,
-    }
-    await updateDoc(pointDoc, newData)
+    await updateDoc(docRef, newData)
+    setShowAlert(true)
   }
 
   return (
     <IonPage>
       <IonContent>
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => history.push('/admin/adminPanel')}
+          header={'Sucesso!'}
+          message={'O ponto foi autalizado com sucesso.'}
+          buttons={[
+            {
+              text: 'Ok',
+              handler: () => {
+                setShowAlert(false)
+              },
+            },
+          ]}
+        />
         <IonToolbar>
+          <IonFab vertical='top' horizontal='start'>
+            <IonFabButton size='small' onClick={() => history.push('/')}>
+              <IonIcon icon={closeOutline} />
+            </IonFabButton>
+          </IonFab>
           <IonButtons slot='start'>
             <IonBackButton
               defaultHref='/'
@@ -156,105 +157,127 @@ const EditPoints: React.FC = () => {
               </IonFab>
               <a className='info'>Atualize as informações do ponto turístico aqui:</a>
             </div>
-            <IonLabel>Nome:</IonLabel>
-            <IonInput
-              placeholder={placeSelected.name}
-              //value={placeSelected.name}
-              className='primary-input'
-              onIonChange={(e: any) => setPlaceName(e.target.value)}
-            />
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateName(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
-            <IonLabel>Endereço:</IonLabel>
-            <IonInput
-              placeholder={placeSelected.formatted_address}
-              className='primary-input'
-              clearOnEdit={true}
-              onIonChange={(e: any) => setPlaceAddress(e.target.value)}
-            />
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateAddress(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
-            <IonLabel>Descrição:</IonLabel>
-            <IonTextarea
-              rows={6}
-              cols={20}
-              placeholder={placeSelected.description}
-              className='primary-input'
-              //value={placeSelected.description}
-              onIonChange={(e: any) => setPlaceDescription(e.target.value)}
-            ></IonTextarea>
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateDescription(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
-            <IonLabel>Imagem:</IonLabel>
-            <IonInput
-              placeholder={placeSelected.img}
-              className='primary-input'
-              //value={placeSelected.img}
-              onIonChange={(e: any) => setPlaceImage(e.target.value)}
-            />
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateImage(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
-            <IonLabel>Tag:</IonLabel>
-            <IonInput
-              placeholder={placeSelected.tag}
-              className='primary-input'
-              //value={placeSelected.tag}
-              onIonChange={(e: any) => setPlaceTag(e.target.value)}
-            />
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateTag(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
-            <IonLabel>URL Google Maps:</IonLabel>
-            <IonInput
-              placeholder={placeSelected.url}
-              className='primary-input'
-              //value={placeSelected.url}
-              onIonChange={(e: any) => setPlaceUrl(e.target.value)}
-            />
+            <div className='formulario'>
+              <Formik
+                validateOnMount
+                validationSchema={schema}
+                onSubmit={onSubmit}
+                initialValues={{
+                  place_id: '',
+                  name: '',
+                  formatted_address: '',
+                  description: '',
+                  tag: '',
+                  url: '',
+                  img: '',
+                  isCovered: '',
+                }}
+              >
+                {({ values, errors, touched, setFieldValue, handleReset }) => (
+                  <Form>
+                    <IonButton onClick={() => getPlace(setFieldValue)}>
+                      Carregar Informações
+                    </IonButton>
+                    <div>
+                      <IonTitle className='labels'>Place id:</IonTitle>
+                      <Field name='place_id' type='text' className='primary-input' />
+                    </div>
 
-            <IonButton
-              expand='block'
-              className='ion-margin-top button'
-              onClick={() => {
-                updateUrl(placeSelected.id)
-              }}
-            >
-              Atualizar
-            </IonButton>
+                    <div>
+                      <IonTitle className='labels'>Nome do ponto:</IonTitle>
+                      <Field name='name' className='primary-input' type='text' />
+                      <ErrorMessage component='span' className='errors' name='name' />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>Url do google Maps:</IonTitle>
+                      <Field name='url' className='primary-input' type='text' />
+                      <ErrorMessage component='span' className='errors' name='url' />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>Endereço:</IonTitle>
+                      <Field
+                        name='formatted_address'
+                        className='primary-input'
+                        type='text'
+                      />
+                      <ErrorMessage
+                        component='span'
+                        className='errors'
+                        name='formatted_address'
+                      />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>Url da imagem:</IonTitle>
+                      <Field name='img' className='primary-input' type='text' />
+                      <ErrorMessage component='span' className='errors' name='img' />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>Descrição:</IonTitle>
+                      <Field name='description' className='primary-input' as='textarea' />
+                      <ErrorMessage
+                        component='span'
+                        className='errors'
+                        name='description'
+                      />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>Tipo de ponto:</IonTitle>
+                      <Field
+                        name='tag'
+                        component='select'
+                        className='primary-input'
+                        type='text'
+                      >
+                        <option value=''>Selecione um tipo:</option>
+                        <option value='Atrativo Natural'>
+                          Atrativo Natural: praias e ilhas
+                        </option>
+                        <option value='Atrativo Cultural'>
+                          Atrativo Cultural: monumentos históricos
+                        </option>
+                        <option value='Ecoturismo'>
+                          Ecoturismo: Trilhas e Paisagens
+                        </option>
+                        <option value='Esporte'>Esporte</option>
+                      </Field>
+                      <ErrorMessage component='span' className='errors' name='tag' />
+                    </div>
+
+                    <div>
+                      <IonTitle className='labels'>O local é coberto?</IonTitle>
+                      <Field
+                        name='isCovered'
+                        component='select'
+                        className='primary-input'
+                        type='text'
+                      >
+                        <option value=''>Selecione uma opção</option>
+                        <option value='true'>Sim</option>
+                        <option value='false'>Não</option>
+                      </Field>
+                      <ErrorMessage
+                        component='span'
+                        className='errors'
+                        name='isCovered'
+                      />
+                    </div>
+                    <IonButton
+                      expand='block'
+                      className='ion-margin-top button'
+                      type='submit'
+                      onClick={handleReset}
+                    >
+                      Enviar
+                    </IonButton>
+                  </Form>
+                )}
+              </Formik>
+            </div>
           </IonContent>
         </IonModal>
       </IonContent>

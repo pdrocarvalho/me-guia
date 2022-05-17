@@ -87,7 +87,7 @@ const Points: React.FC = () => {
       <IonContent className='ion-padding'>
         <IonAlert
           isOpen={showAlert}
-          onDidDismiss={() => history.push('/admin/panel')}
+          onDidDismiss={() => history.push('/admin/adminPanel')}
           header={'Sucesso!'}
           message={'O ponto foi cadastrado com sucesso.'}
           buttons={[

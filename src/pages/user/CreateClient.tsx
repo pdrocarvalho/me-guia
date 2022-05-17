@@ -30,7 +30,7 @@ import './CreateClient.scss'
 import { getAuth, updateProfile } from '@firebase/auth'
 import { doc, collection, setDoc, serverTimestamp } from '@firebase/firestore'
 import { db } from '../../services/firebaseConfig'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
 import schema from './clientSchema'
 
 const axios = require('axios')
@@ -38,17 +38,8 @@ const axios = require('axios')
 const Client: React.FC = () => {
   const auth: any = getAuth()
   const history = useHistory()
-  const usersCollectionRef = collection(db, 'users')
-  const [chooseType, setChooseType] = useState<string>('')
-  const [selectedDate, setSelectedDate] = useState<string>('')
-  const [newStoreName, setNewStoreName] = useState('')
-  const [newCnpj, setNewCnpj] = useState('')
-  const [newAddress, setNewAddress] = useState('')
-  const [newType, setNewType] = useState('')
-  const [newImg, setNewImg] = useState('')
-  const [newDescription, setNewDescription] = useState('')
+
   const [showAlert, setShowAlert] = useState(false)
-  const [showAlertError, setShowAlertError] = useState(false)
 
   const getPlace = async (ev: any, setFieldValue: any) => {
     const request = {

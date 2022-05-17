@@ -41,7 +41,7 @@ const ReportAdm: React.FC = () => {
     <IonPage>
       <IonContent fullscreen={true}>
         <IonFab vertical='top' horizontal='start' slot='fixed'>
-          <IonFabButton size='small' routerLink='/admin/panel'>
+          <IonFabButton size='small' href='/admin/adminPanel'>
             <IonIcon icon={arrowBack} />
           </IonFabButton>
         </IonFab>

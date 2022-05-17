@@ -26,33 +26,36 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
-import {
-  arrowBack,
-  bagHandleOutline,
-  bedOutline,
-  locationSharp,
-} from 'ionicons/icons'
+import { arrowBack, bagHandleOutline, bedOutline, locationSharp } from 'ionicons/icons'
 import React, { useState, useEffect, ReactNode } from 'react'
 import { getAuth } from '@firebase/auth'
 import { collection, getDocs } from '@firebase/firestore'
 import { db } from '../../services/firebaseConfig'
-
 
 //import points from '../server/points';
 
 import './Home.scss'
 import bannerSvg from '../../assets/banner.svg'
 
-
-
 const Home: React.FC = () => {
-  
   const usersCollectionRef = collection(db, 'points')
 
   const [searchText, setSearchText] = useState('')
   const [showSpecs, setShowSpecs] = useState(false)
-  const [placeSelected, setPlaceSelected] = useState<any>([])
   const [points, setPoints] = useState<any>([])
+  const [placeSelected, setPlaceSelected] = useState<any>([])
+
+  interface IPlace {
+    id: string
+    place_id: string
+    name: string
+    formatted_address: string
+    description: string
+    tag: string
+    url: string
+    img: string
+    isCovered: string
+  }
 
   useEffect(() => {
     const getPoints = async () => {
@@ -64,7 +67,7 @@ const Home: React.FC = () => {
   }, [])
 
   const showDetail = async (id: string) => {
-    const place = await points.find((place: any) => place.id === id) // Acha o card selecionado dentro do array
+    const place: IPlace = await points.find((place: IPlace) => place.id === id) // Acha o card selecionado dentro do array
     console.log(place)
     setPlaceSelected(place)
     await setShowSpecs(true)
@@ -101,7 +104,7 @@ const Home: React.FC = () => {
         <div className='navButtons '>
           <IonToolbar>
             <IonButton
-              routerLink='/store'
+              href='/store'
               slot='end'
               size='default'
               fill='outline'
@@ -111,7 +114,7 @@ const Home: React.FC = () => {
               <IonLabel>Comércio</IonLabel>
             </IonButton>
             <IonButton
-              routerLink='/hostel'
+              href='/hostel'
               slot='end'
               size='default'
               fill='outline'
@@ -128,16 +131,14 @@ const Home: React.FC = () => {
         </div>
 
         {points
-          .filter((places: any) => {
+          .filter((places: IPlace) => {
             if (searchText === '') {
               return places
-            } else if (
-              places.name.toLowerCase().includes(searchText.toLowerCase())
-            ) {
+            } else if (places.name.toLowerCase().includes(searchText.toLowerCase())) {
               return places
             }
           })
-          .map((places: any, index: any) => {
+          .map((places: IPlace, index: String) => {
             return (
               <IonCard
                 className='card'
@@ -149,9 +150,7 @@ const Home: React.FC = () => {
 
                 <IonCardHeader>
                   <IonCardTitle className='title'>{places.name}</IonCardTitle>
-                  <IonCardSubtitle className='subtitle'>
-                    {places.tag}
-                  </IonCardSubtitle>
+                  <IonCardSubtitle className='subtitle'>{places.tag}</IonCardSubtitle>
                 </IonCardHeader>
               </IonCard>
             )
@@ -181,16 +180,8 @@ const Home: React.FC = () => {
                     {placeSelected.formatted_address}
                   </IonCol>
                   <IonCol className='ion-align-self-center'>
-                    <IonButton
-                      className='loc'
-                      fill='outline'
-                      href={placeSelected.url}
-                    >
-                      <IonIcon
-                        slot='icon-only'
-                        color='primary'
-                        icon={locationSharp}
-                      />
+                    <IonButton className='loc' fill='outline' href={placeSelected.url}>
+                      <IonIcon slot='icon-only' color='primary' icon={locationSharp} />
                       <IonLabel>Me guia!</IonLabel>
                     </IonButton>
                   </IonCol>

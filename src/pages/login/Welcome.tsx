@@ -28,6 +28,7 @@ import {
 import meguiaLightSVG from '../../assets/meguia-light.svg'
 import { arrowBack } from 'ionicons/icons'
 import './Welcome.scss'
+import { getAuthentication } from '../../services/getAuthentication'
 
 const Welcome: React.FC = () => {
   let history = useHistory()
@@ -58,7 +59,7 @@ const Welcome: React.FC = () => {
   auth.onAuthStateChanged(function (user: any) {
     if (user) {
       console.log('user logged in')
-      setUserInfo(user.displayName)
+      setUserInfo(user)
       console.log(userInfo)
       console.log(user.uid)
     } else {
@@ -73,9 +74,10 @@ const Welcome: React.FC = () => {
   const loginUser = async () => {
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-      await setShowLoginAlert(true)
-      await setShowLogin(false)
-      } catch (error: any) {
+      await getAuthentication()
+      setShowLoginAlert(true)
+      setShowLogin(false)
+    } catch (error: any) {
       switch (error.message) {
         case 'Firebase: Error (auth/invalid-email).':
           setError('Email inválido!')
@@ -116,40 +118,36 @@ const Welcome: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="header-welcome ion-no-border">
+      <IonHeader className='header-welcome ion-no-border'>
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              defaultHref="/"
-              color="light"
-              icon={arrowBack}
-            ></IonBackButton>
+          <IonButtons slot='start'>
+            <IonBackButton defaultHref='/' color='light' icon={arrowBack}></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent class="ion-padding ion-text-center" color="primary">
-        <img alt="" src={meguiaLightSVG} className="logo" />
+      <IonContent class='ion-padding ion-text-center' color='primary'>
+        <img alt='' src={meguiaLightSVG} className='logo' />
 
-        <div className="title ion-text-center">
+        <div className='title ion-text-center'>
           <h2>Bem-vindo!</h2>
           <p>Crie sua conta ou faça login</p>
         </div>
 
-        <div className="ion-margin-top">
+        <div className='ion-margin-top'>
           <IonButton
-            expand="block"
-            className="ion-margin-top button"
-            fill="outline"
-            color="light"
+            expand='block'
+            className='ion-margin-top button'
+            fill='outline'
+            color='light'
             onClick={() => setShowRegister(true)}
           >
             CADASTRE-SE
           </IonButton>
           <IonButton
-            expand="block"
-            className="ion-margin-top button"
-            color="light"
+            expand='block'
+            className='ion-margin-top button'
+            color='light'
             onClick={() => setShowLogin(true)}
           >
             LOGIN
@@ -159,41 +157,41 @@ const Welcome: React.FC = () => {
         {/* MODAL LOGIN */}
         <IonModal
           isOpen={showLogin}
-          cssClass="login-modal"
+          cssClass='login-modal'
           onDidDismiss={() => setShowLogin(false)}
         >
-          <IonContent className="ion-padding">
-            <div className="title">
+          <IonContent className='ion-padding'>
+            <div className='title'>
               <h4> LOGIN </h4>
               <p> Vamos começar </p>
             </div>
 
             <IonInput
-              placeholder="Usuário"
-              className="primary-input"
+              placeholder='Usuário'
+              className='primary-input'
               onIonChange={(e: any) => setLoginEmail(e.target.value)}
             />
             <IonInput
-              placeholder="Senha"
-              type="password"
-              className="primary-input"
+              placeholder='Senha'
+              type='password'
+              className='primary-input'
               onIonChange={(e: any) => setLoginPassword(e.target.value)}
             />
 
-            <div className="ion-margin-top ion-text-right forgot">
-              <a href="/welcome/forgotpassword">Esqueceu a senha?</a>
+            <div className='ion-margin-top ion-text-right forgot'>
+              <a href='/welcome/forgotpassword'>Esqueceu a senha?</a>
             </div>
 
             <IonButton
-              expand="block"
-              className="ion-margin-top button"
-              color="primary"
+              expand='block'
+              className='ion-margin-top button'
+              color='primary'
               onClick={loginUser}
             >
               LOGIN
             </IonButton>
 
-            <div className="ion-margin-top ion-text-center">
+            <div className='ion-margin-top ion-text-center'>
               <a onClick={() => setShowLogin(false)}> Fechar </a>
             </div>
           </IonContent>
@@ -202,49 +200,49 @@ const Welcome: React.FC = () => {
         {/* MODAL CADASTRO */}
         <IonModal
           isOpen={showRegister}
-          cssClass="register-modal"
+          cssClass='register-modal'
           onDidDismiss={() => setShowRegister(false)}
         >
-          <IonContent className="ion-padding">
-            <div className="ion-text-left titleSignup">
+          <IonContent className='ion-padding'>
+            <div className='ion-text-left titleSignup'>
               <h4> Cadastre-se </h4>
               <p> Informe seus dados para continuar </p>
             </div>
 
             <IonInput
-              placeholder="Email"
-              className="primary-input"
+              placeholder='Email'
+              className='primary-input'
               onIonChange={(e: any) => setRegisterEmail(e.target.value)}
             />
             <IonInput
-              placeholder="Senha"
-              className="primary-input"
-              type="password"
+              placeholder='Senha'
+              className='primary-input'
+              type='password'
               onIonChange={(e: any) => setRegisterPassword(e.target.value)}
             />
             <IonInput
-              placeholder="Confirme a senha"
-              className="primary-input"
-              type="password"
+              placeholder='Confirme a senha'
+              className='primary-input'
+              type='password'
               onIonChange={(e: any) => setRegisterPasswordC(e.target.value)}
             />
             <IonItem>
               <p>Você concorda com os termos de uso:</p>
               <IonCheckbox
-                slot="end"
-                color="primary"
+                slot='end'
+                color='primary'
                 onIonChange={(e: any) => setButtonDisable(false)}
               />
             </IonItem>
             <IonButton
-              expand="block"
-              className="ion-margin-top button"
+              expand='block'
+              className='ion-margin-top button'
               disabled={buttonDisable}
               onClick={registerUser}
             >
               CADASTRAR-SE
             </IonButton>
-            <div className="ion-margin-top ion-text-center">
+            <div className='ion-margin-top ion-text-center'>
               <a onClick={() => setShowRegister(false)}> Fechar </a>
             </div>
           </IonContent>
@@ -265,7 +263,7 @@ const Welcome: React.FC = () => {
         />
         <IonAlert
           isOpen={showLoginAlert}
-          onDidDismiss={() => history.push("/")}
+          onDidDismiss={() => history.push('/')}
           header={'Login realizado com sucesso!'}
           message={''}
           buttons={['OK']}

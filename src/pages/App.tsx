@@ -17,7 +17,11 @@ import { useState } from 'react'
 import { auth, db } from '../services/firebaseConfig'
 import { doc, getDoc } from '@firebase/firestore'
 import { signOut } from '@firebase/auth'
+import { UserAdmin } from '../PrivateRoute'
 import { isAuthenticated } from './isAuthenticated'
+
+import Routes from '../routes'
+
 /* Import pages */
 import Home from './home/Home'
 import Hostel from './commerce/Hostel'
@@ -89,18 +93,20 @@ const App: React.FC = () => {
       if (docSnap.exists()) {
         const data = docSnap.data()
         setUserInfo(data.isAdm)
-        setDisplayName(data.store_name)
-        console.log(data.store_name)
-        console.log('Doc data:', docSnap.data())
-        console.log('user logged in')
-        console.log(userInfo)
+        setDisplayName(data.name)
+        UserAdmin.setUserIsAdmin(data.isAdmin)
+        console.log(UserAdmin)
+        //console.log(data.name)
+        //console.log('Doc data:', docSnap.data())
+        //console.log('user logged in')
+        //console.log(userInfo)
       } else {
-        console.log('User with no data')
+        //console.log('User with no data')
       }
     } else {
       setDisplayName('Entre com sua conta')
 
-      console.log('user NOT logged in')
+      //console.log('user NOT logged in')
     }
   })
 
@@ -135,7 +141,7 @@ const App: React.FC = () => {
 
               <IonItem href='/welcome'>
                 <IonIcon icon={alertCircleOutline} slot='end' />
-                <IonLabel> Anuncie no nosso app! </IonLabel>
+                <IonLabel> Entrar / Cadastrar </IonLabel>
               </IonItem>
 
               <IonItem href='/report'>
@@ -164,18 +170,7 @@ const App: React.FC = () => {
       {/* ROTAS */}
       <IonReactRouter>
         <IonRouterOutlet>
-          <Route path='/' component={Home} exact />
-          <Route path='/hostel' component={Hostel} exact />
-          <Route path='/store' component={Store} exact />
-          <Route path='/welcome' component={Welcome} exact />
-          <Route path='/welcome/forgotpassword' component={ForgotPassword} exact />
-          <Route path='/admin/createPoint' component={CreatePoint} exact />
-          <Route path='/register/client' component={CreateClient} exact />
-          <Route path='/report' component={Report} exact />
-          <Route path='/admin/adminPanel' component={AdminPanel} exact />
-          <Route path='/admin/reportView' component={ReportView} exact />
-          <Route path='/admin/editPoint' component={EditPoint} exact />
-          <Route path='/admin/deletepoints' component={DeletePoints} exact />
+          <Routes />
         </IonRouterOutlet>
       </IonReactRouter>
     </IonApp>

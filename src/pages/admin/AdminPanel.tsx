@@ -26,7 +26,7 @@ const Panel: React.FC = () => {
         </IonToolbar>
         <div className='label'>
           <h2>Painel do Administrador</h2>
-          <p>Bem vindo, !</p>
+          <p>Bem vindo !</p>
         </div>
         <div className='panel'>
           <h2>SAC</h2>
@@ -35,7 +35,7 @@ const Panel: React.FC = () => {
               expand='block'
               fill='solid'
               color='danger'
-              routerLink='/admin/reportView'
+              href='/admin/reportView'
             >
               REPORTS
             </IonButton>
@@ -46,23 +46,18 @@ const Panel: React.FC = () => {
               expand='block'
               fill='solid'
               color='danger'
-              routerLink='/admin/createPoint'
+              href='/admin/createPoint'
             >
               CADASTRAR PONTO TURISTICO
             </IonButton>
-            <IonButton
-              expand='block'
-              fill='solid'
-              color='danger'
-              routerLink='/admin/editPoint'
-            >
+            <IonButton expand='block' fill='solid' color='danger' href='/admin/editPoint'>
               EDITAR PONTO TURISTICO
             </IonButton>
             <IonButton
               expand='block'
               fill='solid'
               color='danger'
-              routerLink='/admin/deletepoints'
+              href='/admin/deletepoints'
             >
               EXCLUIR PONTO TURISTICO
             </IonButton>

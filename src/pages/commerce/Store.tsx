@@ -31,13 +31,11 @@ import { useState, useEffect } from 'react'
 import { db } from '../../services/firebaseConfig'
 import { collection, getDocs } from 'firebase/firestore'
 
-let storeSelected: any = []
-
 const Store: React.FC = () => {
   const [searchText, setSearchText] = useState('')
   const [users, setUsers] = useState<any>([])
   const [showSpecs, setShowSpecs] = useState(false)
-
+  const [storeSelected, setStoreSelected] = useState<any>([])
   const usersCollectionRef = collection(db, 'users')
 
   useEffect(() => {
@@ -56,9 +54,9 @@ const Store: React.FC = () => {
   }, [])
 
   const showDetails = async (id: any) => {
-    const store = await users.find((users: any) => users.cnpj === id)
-    storeSelected = store
-    await setShowSpecs(true)
+    const store = await users.find((users: any) => users.id === id)
+    setStoreSelected(store)
+    setShowSpecs(true)
   }
 
   return (
@@ -92,7 +90,7 @@ const Store: React.FC = () => {
         </div>
         <IonToolbar className='navButtons'>
           <IonButton
-            routerLink='/Hostel'
+            href='/Hostel'
             slot='end'
             size='default'
             fill='outline'
@@ -101,13 +99,7 @@ const Store: React.FC = () => {
             <IonIcon icon={bedOutline}></IonIcon>
             <IonLabel>Hospedagem</IonLabel>
           </IonButton>
-          <IonButton
-            routerLink='/'
-            slot='end'
-            size='default'
-            fill='outline'
-            color='danger'
-          >
+          <IonButton href='/' slot='end' size='default' fill='outline' color='danger'>
             <IonIcon icon={trailSignOutline}></IonIcon>
             <IonLabel>Destinos</IonLabel>
           </IonButton>
@@ -130,7 +122,7 @@ const Store: React.FC = () => {
                 <IonItem
                   className='master'
                   key={`item_${index}`}
-                  onClick={(e) => showDetails(`${users.cnpj}`)}
+                  onClick={(e) => showDetails(`${users.id}`)}
                 >
                   <IonLabel>
                     <h2> {users.name} </h2>
